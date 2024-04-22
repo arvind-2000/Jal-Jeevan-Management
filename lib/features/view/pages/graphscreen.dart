@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:waterlevelmonitor/features/view/pages/tablescreen.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 import 'package:waterlevelmonitor/features/view/widgets/chartwidgets.dart';
+import 'package:waterlevelmonitor/features/view/widgets/progress.dart';
 
 import '../widgets/cardstyle.dart';
 
@@ -19,7 +21,7 @@ class GraphScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       width: double.infinity,
       height: double.infinity,
-      child: Column(
+      child:prov.allwaterlevellist.isEmpty?ProgressController(): Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +64,7 @@ class GraphScreen extends StatelessWidget {
               ),
             ],
           ),
-          const ChartWidget()
+         prov.isgraph==2?const TableScreen():const ChartWidget()
         ],
       ),
     ));

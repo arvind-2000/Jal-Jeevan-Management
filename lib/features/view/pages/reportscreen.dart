@@ -81,8 +81,8 @@ class _ReportScreenState extends State<ReportScreen> {
                       Expanded(
                         child: Container(
                                             
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.all(16),
+                          padding:const EdgeInsets.all(16),
+                          margin:const EdgeInsets.all(16),
                         
                           ),
                       )

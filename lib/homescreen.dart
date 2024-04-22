@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<WaterLevelProvider>(context, listen: false).getData();
+      Provider.of<WaterLevelProvider>(context, listen: false).getDatas();
     });
   }
 

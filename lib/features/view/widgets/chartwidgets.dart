@@ -68,7 +68,7 @@ class ChartWidget extends StatelessWidget {
           
           ),
       
-          series:[  prov.isgraph == 1?barcharts(waterleveldummy, 0, Theme.of(context).colorScheme.secondary):linecharts(waterleveldummy, 0, Theme.of(context).colorScheme.secondary)],
+          series:[  prov.isgraph == 1?barcharts(prov.waterlevellist, 0, Theme.of(context).colorScheme.secondary):linecharts(prov.waterlevellist, 0, Theme.of(context).colorScheme.secondary)],
           )
       ),
     );
