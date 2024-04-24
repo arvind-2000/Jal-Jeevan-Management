@@ -50,11 +50,11 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
       width: 400,
       height: double.infinity,
 
-      child:prov.waterlevellist.isEmpty?const ProgressController():Column(
+      child:prov.isLoading?ProgressController():Column(
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
-            height: prov.isOnoff?159:100,
+            // height: prov.isOnoff?159:100,
           padding:const EdgeInsets.all(16),
           color:prov.isOnoff?Colors.green[700]:Theme.of(context).colorScheme.secondary,
           
@@ -67,7 +67,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(prov.isOnoff?'Pump is On':'Pump is Off',style:const TextStyle(fontSize: 18,),),
-                      Text('12 mins',style:TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                      // Text('12 mins',style:TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
               
                     ],
                   ),
@@ -81,7 +81,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                   }),
                 ],
               ),
-              prov.isOnoff?Text('12:24',style: TextStyle(fontSize: 40),):SizedBox()
+              // prov.isOnoff?Text('12:24',style: TextStyle(fontSize: 40),):SizedBox()
             ],
           ),
           
@@ -95,12 +95,12 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                 children: [
                   const SizedBox(height: 20,),
                   Text("Water Level",style:TextStyle(fontSize:18,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                  Text("${prov.allwaterlevellist.last.level.toStringAsFixed(0)} $levelunit",style:const TextStyle(fontSize:24),),
+                  Text("${prov.waterlevellist.last.level.toStringAsFixed(0)} $levelunit",style:const TextStyle(fontSize:24),),
                   
                     Container(
                       height: 200,
                       width: 200,
-                      child: RadialBarScreen(waterLevellist: prov.waterlevellist,),
+                      child: RadialBarScreen(waterLevellist:prov.waterlevellist.first.level,),
                     )
 
 
@@ -129,7 +129,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                         Text("Level",style:TextStyle(fontSize:16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                       ],
                     ),
-                    Text("${prov.allwaterlevellist.last.level.toStringAsFixed(0)} $levelunit",style:const TextStyle(fontSize: 16),)
+                    Text("${prov.waterlevellist.last.level.toStringAsFixed(0)} $levelunit",style:const TextStyle(fontSize: 16),)
                   ],
                 ),
                 SizedBox(height: 20,),
@@ -143,7 +143,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                         Text("Flow",style:TextStyle(fontSize:16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                       ],
                     ),
-                    Text("${prov.allwaterlevellist.last.flow.toStringAsFixed(0)} $flowunit",style:const TextStyle(fontSize: 16),)
+                    Text("${prov.waterlevellist.last.flow.toStringAsFixed(0)} $flowunit",style:const TextStyle(fontSize: 16),)
                   ],
                 ),
                 SizedBox(height: 20,),
@@ -157,7 +157,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                         Text("Temp",style:TextStyle(fontSize:16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                       ],
                     ),
-                    Text("${prov.allwaterlevellist.last.temp.toStringAsFixed(0)} $tempunit",style:const TextStyle(fontSize: 16),)
+                    Text("${prov.waterlevellist.last.temp.toStringAsFixed(0)} $tempunit",style:const TextStyle(fontSize: 16),)
                   ],
                 ),
                 const SizedBox(height: 40,),

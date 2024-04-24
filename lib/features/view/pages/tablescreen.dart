@@ -28,7 +28,7 @@ class TableScreen extends StatelessWidget {
                                     ListView(
                                   shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    children:prov.waterlevellist.map((e) => CardStyle(child: Padding(
+                                    children:prov.allwaterlevellist.map((e) => CardStyle(child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(e.level.toStringAsFixed(0)),
                                     ))).toList(),

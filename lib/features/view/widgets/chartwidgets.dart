@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:waterlevelmonitor/core/dummy.dart';
+import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/domain/entities/waterlevelentity.dart';
 
 import '../provider/waterlevelprovider.dart';
@@ -48,27 +48,30 @@ class ChartWidget extends StatelessWidget {
               
               
               primaryYAxis:const NumericAxis(
-      
+
                    majorGridLines: MajorGridLines(
-              
+                    
                width: 0
              ),
               desiredIntervals: 10,
-      
+                decimalPlaces: 0,
                 minimum: 0.0,
                 interval: 50,
-                maximum: 100,
+              
                 
               ),
-            primaryXAxis:const NumericAxis(
-                 majorGridLines: MajorGridLines(
+            primaryXAxis: NumericAxis(
+              
+                 majorGridLines:const MajorGridLines(
                    
                width: 0
              ),
-          
+
+             axisLabelFormatter: prov.recordtime==1||prov.recordtime==0?(axisLabelRenderArgs) => ChartAxisLabel(  prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) :(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
+            interval:1,
           ),
       
-          series:[  prov.isgraph == 1?barcharts(prov.waterlevellist, 0, Theme.of(context).colorScheme.secondary):linecharts(prov.waterlevellist, 0, Theme.of(context).colorScheme.secondary)],
+          series:[  prov.isgraph == 1?barcharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary):linecharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary)],
           )
       ),
     );

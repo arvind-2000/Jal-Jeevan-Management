@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
+import 'package:waterlevelmonitor/core/error/errorscreen.dart';
 
 import 'features/view/pages/graphscreen.dart';
 import 'features/view/pages/reportscreen.dart';
@@ -17,54 +19,59 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<WaterLevelProvider>(context, listen: false).getDatas();
+
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<WaterLevelProvider>(context, listen: false).getDatass();
     });
+    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<WaterLevelProvider>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: const SafeArea(
-          child: SizedBox(
-        child: Row(
-          children: [
-            SizedBox(
-              width: 80,
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  NavBarPage(),
-                  Expanded(
+      body:  SafeArea(
+          child:prov.response!=1 && !prov.isLoading?const FadeAnimation(child: ErrorScreen()) :const FadeAnimation(
+            child: SizedBox(
                     child: Row(
-                      children: [
-                        WaterLevelInfo(),
-                        Expanded(
-                            child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              Expanded(flex: 4, child: GraphScreen()),
-                              Expanded(flex: 2, child: ReportScreen())
-                            ],
-                          ),
-                        )),
-                      ],
+            children: [
+              SizedBox(
+                width: 80,
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    NavBarPage(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          WaterLevelInfo(),
+                          Expanded(
+                              child: SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Column(
+                              children: [
+                                Expanded(flex: 4, child: GraphScreen()),
+                                Expanded(flex: 2, child: ReportScreen())
+                              ],
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 80,
+              ),
+            ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 80,
-            ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 }

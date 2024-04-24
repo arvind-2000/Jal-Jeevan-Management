@@ -26,7 +26,7 @@ class NavBarPage extends StatelessWidget {
                   prov.changeRecord(0);
                 },
 
-                child: CardOptionBorder(title: 'This Week',isSelect: prov.recordtime==0,)),
+                child: CardOptionBorder(title: 'Today',isSelect: prov.recordtime==0,)),
                 SizedBox(width: 20,),
               InkWell(
                 onTap: (){

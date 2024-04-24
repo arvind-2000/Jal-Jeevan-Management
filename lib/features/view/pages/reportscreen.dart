@@ -3,6 +3,7 @@ import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
+import 'package:waterlevelmonitor/features/view/widgets/radialbar.dart';
 
 import '../widgets/cardstyle.dart';
 
@@ -38,61 +39,58 @@ class _ReportScreenState extends State<ReportScreen> {
             Expanded(
               child: Row(
                 children: [
-                 Expanded(
-                    flex: 3,
-                    child: ListView(
-                       shrinkWrap: true,
-                       scrollDirection: Axis.horizontal,
-                       physics: BouncingScrollPhysics(),
-                         children: [
-                           Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',),
-                            Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',),
-                            Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',),
-                           Dots(times: '2.8.2024\n12mins',)
-                         ],
-                       ),
+                //  Expanded(
+                //     flex: 3,
+                //     child: ListView(
+                //        shrinkWrap: true,
+                //        scrollDirection: Axis.horizontal,
+                //        physics: BouncingScrollPhysics(),
+                //          children: [
+                //            Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',),
+                //             Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',),
+                //             Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',),
+                //            Dots(times: '2.8.2024\n12mins',)
+                //          ],
+                //        ),
+                //   ),
+                CardStyle(child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Today',style: TextStyle(),),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Total Flow'),
+                              Text('${prov.waterlevellist.last.totalflow.toStringAsFixed(2)} $flowunit',style:const TextStyle(fontSize: 20),),
+                             
+                            ],
+                          )
+                        ],
+                      ),
+                    // Container(
+                    //  height: 60,
+                    //  width: 60,              
+                    //   padding:const EdgeInsets.all(16),
+                    //   margin:const EdgeInsets.all(16),
+                    //   child: RadialBarScreen(waterLevellist: prov.waterlevellist.last.totalflow),
+                    //   )
+                      
+                
+                
+                    ],
                   ),
-                Expanded(
-                  flex: 2,
-                  child: CardStyle(child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Today',style: TextStyle(),),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('2 $levelunit',style: TextStyle(fontSize: 20),),
-                                Text('2 mins ago'),
-                              ],
-                            )
-                          ],
-                        ),
-                      Expanded(
-                        child: Container(
-                                            
-                          padding:const EdgeInsets.all(16),
-                          margin:const EdgeInsets.all(16),
-                        
-                          ),
-                      )
-                        
-
-
-                      ],
-                    ),
-                  )),
-                )
+                ))
                        
                 ],
               ),

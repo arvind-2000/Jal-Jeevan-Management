@@ -29,17 +29,17 @@ class GraphScreen extends StatelessWidget {
               const Text('Water Records'),
               Row(
                 children: [
-                  IconButton(
-                      tooltip: 'Tables',
-                      onPressed: () {
-                        prov.changeGraph(2);
-                      },
-                      icon:FaIcon(
-                        FontAwesomeIcons.table,
-                        size: 14,
-                        color: prov.isgraph == 2?Theme.of(context).colorScheme.secondary:null,
+                  // IconButton(
+                  //     tooltip: 'Tables',
+                  //     onPressed: () {
+                  //       prov.changeGraph(2);
+                  //     },
+                  //     icon:FaIcon(
+                  //       FontAwesomeIcons.table,
+                  //       size: 14,
+                  //       color: prov.isgraph == 2?Theme.of(context).colorScheme.secondary:null,
 
-                      )),
+                  //     )),
                   IconButton(
                       tooltip: 'Bar',
                       onPressed: () {

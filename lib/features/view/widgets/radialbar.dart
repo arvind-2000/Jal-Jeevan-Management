@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -9,10 +11,11 @@ class RadialBarScreen extends StatelessWidget {
     required this.waterLevellist,
   });
 
-  final List<WaterLevel> waterLevellist;
+  final double waterLevellist;
 
   @override
   Widget build(BuildContext context) {
+    log('${waterLevellist}');
     return SfCircularChart(
     
       series: [RadialBarSeries(
@@ -24,10 +27,11 @@ class RadialBarScreen extends StatelessWidget {
         xValueMapper: (c,i){
         return i;
       }, yValueMapper:(c,i){
-        return waterLevellist[i].level;
+     
+        return waterLevellist;
       },
-      maximumValue: 100,
-      dataSource: [waterLevellist.last.level],
+      maximumValue: 500,
+    dataSource: [waterLevellist],
       )],
     );
   }

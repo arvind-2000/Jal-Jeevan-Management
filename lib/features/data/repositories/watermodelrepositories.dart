@@ -12,109 +12,116 @@ import '../../domain/repositories/waterlevelrepositories.dart';
 
 class WaterLevelModelRepositories extends UseCasesModel implements WaterLevelRepositories {
   
+int response = 0;
 
-
-  @override
-  Future<bool> pump() async{
-var data;
-http.get(Uri.parse(api)).then((value){
-
-  if (value.statusCode == 200) {
-          // print('okay in service');
-          data = jsonDecode(value.body) as Map<String, dynamic>;
-          print("$data");
-     
-        } else {
-          if (value.statusCode == 500) {
-            print('server error');
-        
-          } else {
-            print('client error');
-
-          }
-        }
-
-});
-      
-  return data['isActive'];
- 
-
-  }
   
   @override
-  Future<List<WaterLevel>> getWaterLevelLatest({required String url}) async {
+  Future<Map<List<WaterLevel>,int>> getWaterLevelLatest({required String url}) async {
 
 
     List<WaterLevel> datas = [];
     WaterLevel waterdata = WaterLevel(name: '',date: DateTime.now(),elevation: 0,flow: 0.0,level: 0.0,temp: 0.0,totalflow: 0.0);
-
-
-      await http.get(Uri.parse(url)).then((value) {
-
-        print('in service response');
-        if (value.statusCode == 200) {
-          // print('okay in service');
-          var data = jsonDecode(value.body) as Map<String, dynamic>;
-          print("${data['channel']['name']} ${data['feeds'].length}");
-          waterdata = convertValues(name:  data['channel']['id'], level: data['feeds']['field1'], flow: data['feeds']['field3'], temp: data['feeds']['field2'], date: data['feeds']['created'], elevation: data['feeds']['elevation'],totalflow:data['feeds']['field5'] );
-        } else {
-          if (value.statusCode == 500) {
-            print('server error');
-          } else {
-            print('client error');
-  
-          }
-        }
-      
-          datas.add(waterdata);
-        
-      });
     
+    int res = 0;
 
+    final response = await http.get(Uri.parse(url));
+          
+        print('in service response latest');
 
-    return  datas;
-  }
-  
-  @override
-  Future<List<WaterLevel>> getWaterLevel({required String url}) async {
-          List<WaterLevel> datas = [];
-   
-
-
-      await http.get(Uri.parse(url)).then((value) {
-
-        print('in service response');
-        if (value.statusCode == 200) {
+        if (response.statusCode == 200) {
+            res = 1;
           // print('okay in service');
-          log('In service response');
-          var data = jsonDecode(value.body) as Map<String, dynamic>;
+          var data = jsonDecode(response.body) as Map<String, dynamic>;
+          print("${data['channel']['name']} ${data['feeds'].length}");
+  for(int i = 0;i<data['feeds'].length;i++){
 
-            print("${data['channel']['name']} ${data['feeds'].length}  ${data['feeds'][0]['field1']}");
-          for(int i = 0;i<data['feeds'].length;i++){
             WaterLevel waterdata = WaterLevel(name: '',date: DateTime.now(),elevation: 0,flow: 0.0,level: 0.0,temp: 0.0,totalflow: 0.0);
-            waterdata = convertValues(name:  data['channel']['id'], level: data['feeds']['field1'], flow: data['feeds']['field3'], temp: data['feeds']['field2'], date: data['feeds']['created'], elevation: data['feeds']['elevation'],totalflow:data['feeds']['field5'] );    
+           
+          String name = data['feeds'][i]['channelId'];
+          String level = data['feeds'][i]['field1'];
+          String flow = data['feeds'][i]['field4'];
+          String temp = data['feeds'][i]['field2'];
+          String totalflow=data['feeds'][i]['field5'];
+          String elevation = data['feeds'][i]['elevation'];
+          String date = data['feeds'][i]['created'];
+
+
+          waterdata = convertValues(name:  name, level: level, flow: flow, temp: temp, date: date, elevation:elevation,totalflow:totalflow );
+           
             datas.add(waterdata);
           
           }
+        } else {
+          if (response.statusCode == 500) {
+            res = 4;
+            print('server error');
+          } else {
+            res = 2;
+             print('client error');
+  
+          }
+        }
+      
+ 
+        
+  
+    
 
 
+    return  {datas:res};
+  }
+  
+  @override
+  Future<Map<List<WaterLevel>,int>> getWaterLevel({required String url}) async {
+          List<WaterLevel> datas = [];
+        int res;
+      final response = await http.get(Uri.parse(url));
+    
+        print('in service response');
+        if (response.statusCode == 200) {
+          res = 1;
+          // print('okay in service');
+          log('In service response');
+          var data = jsonDecode(response.body) as Map<String, dynamic>;
+            log('in data field ${data['feeds'].length}');
+      
+
+          //   print("${data['channel']['name']} ${data['feeds'].length}  ${data['feeds'][0]['field1']}");
+          for(int i = 0;i<data['feeds'].length;i++){
+
+            WaterLevel waterdata = WaterLevel(name: '',date: DateTime.now(),elevation: 0,flow: 0.0,level: 0.0,temp: 0.0,totalflow: 0.0);
+           
+          String name = data['feeds'][i]['channelId'];
+          String level = data['feeds'][i]['field1'];
+          String flow = data['feeds'][i]['field4'];
+          String temp = data['feeds'][i]['field2'];
+          String totalflow=data['feeds'][i]['field5'];
+          String elevation = data['feeds'][i]['elevation'];
+          String date = data['feeds'][i]['created'];
+
+
+          waterdata = convertValues(name:  name, level: level, flow: flow, temp: temp, date: date, elevation:elevation,totalflow:totalflow );
+           
+            datas.add(waterdata);
+          
+          }
          
       
         } else {
-          if (value.statusCode == 500) {
+          if (response.statusCode == 500) {
+               res = 4;
             print('server error');
           } else {
+               res = 2;
             print('client error');
   
           }
         }
-    
-        
-      });
+      
     
 
+     return  {datas:res};
 
-    return  datas;
   }
 
 

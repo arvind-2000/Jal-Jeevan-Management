@@ -54,13 +54,13 @@ List<WaterLevel> monthly(List<WaterLevel> data,DateTime dates){
   da.sort((a,b)=>b.date.compareTo(a.date));
 
     temp.add(data.first);
-    tempdate = da.first.date.month;
+    // tempdate = da.first.date.month;
   for(WaterLevel d in da){
 
       if(d.date.year==dates.year){
 
-          if(d.date.month == tempdate){
-
+          if(d.date.month != tempdate){
+            tempdate = d.date.month;
                 temp.add(d);
 
           }
@@ -69,10 +69,53 @@ List<WaterLevel> monthly(List<WaterLevel> data,DateTime dates){
 
 
   }
-  
+  temp.sort((a,b)=>a.date.compareTo(b.date));
   return temp;
   
 }
+
+List<WaterLevel> weekly(List<WaterLevel> data,DateTime dates){
+  List<WaterLevel>  da = data;
+  List<WaterLevel> temp = [];
+  int tempdate = 0;
+  da.sort((a,b)=>b.date.compareTo(a.date));
+
+    temp.add(data.first);
+    // tempdate = da.first.date.month;
+  for(WaterLevel d in da){
+
+      if(d.date.year==dates.year){
+
+          if(d.date.month == dates.month){
+            if(d.date.day == dates.day){
+                
+                if(d.date.second!=tempdate){
+                tempdate = d.date.hour;
+                temp.add(d);
+                }
+          
+
+            }
+            
+
+          }
+
+      }
+
+
+  }
+  temp.sort((a,b)=>a.date.compareTo(b.date));
+  return temp;
+  
+}
+
+
+
+
+ 
+
+
+
 
  List<WaterLevel> yearly(List<WaterLevel> data,DateTime dates){
   List<WaterLevel>  da = data;
@@ -98,16 +141,18 @@ List<WaterLevel> monthly(List<WaterLevel> data,DateTime dates){
 
   }
   
-
+ temp.sort((a,b)=>a.date.compareTo(b.date));
   return temp;
  
  }
 
 
-  Future<int> pumpSwitch(bool value) async{
+  Future<int> pumpSwitch(bool value,WaterLevel waterLevel) async{
     int res = 0;
+
+    
     try{
-        Uri url = Uri.parse('$updateapi?id=$channelid&isactive=$value');
+        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${value?1:0}');
         log(url.toString());
         final response = await http.post(url);
         
