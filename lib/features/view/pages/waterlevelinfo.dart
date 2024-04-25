@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_count_down.dart';
+import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
+import 'package:waterlevelmonitor/features/view/widgets/cardoption.dart';
 import 'package:waterlevelmonitor/features/view/widgets/progress.dart';
 
 import '../widgets/cardstyle.dart';
@@ -54,7 +57,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
-            // height: prov.isOnoff?159:100,
+            height: prov.isOnoff?160:150,
           padding:const EdgeInsets.all(16),
           color:prov.isOnoff?Colors.green[700]:Theme.of(context).colorScheme.secondary,
           
@@ -67,7 +70,13 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(prov.isOnoff?'Pump is On':'Pump is Off',style:const TextStyle(fontSize: 18,),),
-                      // Text('12 mins',style:TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                      Row(
+                        children: [
+                            const FaIcon(FontAwesomeIcons.clock,size: 12,),
+                            SizedBox(width: 10,),
+                          Text('${prov.timeschedule/60} mins',style:TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                        ],
+                      ),
               
                     ],
                   ),
@@ -81,7 +90,41 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                   }),
                 ],
               ),
-              // prov.isOnoff?Text('12:24',style: TextStyle(fontSize: 40),):SizedBox()
+              const SizedBox(height: 20,),
+              !prov.isOnoff?FadeAnimation(
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        prov.changeTimeSchedule(5, 0);
+                      },
+                      child: CardOptionBorder(title: '5 mins', isSelect:prov.selecTimeSchedule!=0)),
+                      SizedBox(width: 10,),
+                           InkWell(
+                      onTap: (){
+                        prov.changeTimeSchedule(10, 1);
+                      },
+                      child: CardOptionBorder(title: '10 mins', isSelect:prov.selecTimeSchedule!=1)),
+                      SizedBox(width: 10,),
+                      InkWell(
+                      onTap: (){
+                        prov.changeTimeSchedule(20, 2);
+                      },
+                      child: CardOptionBorder(title: '20 mins', isSelect:prov.selecTimeSchedule!=2)),
+                  ],
+                ),
+              ):const SizedBox(),
+              const SizedBox(height: 10,),
+              prov.isOnoff?Countdown(
+      seconds:prov.timeschedule,
+      build: (BuildContext context, double time) => Text('${time.toStringAsFixed(0)} seconds',style: const TextStyle(fontSize: 35),),
+      interval: const Duration(seconds: 1),
+
+      onFinished: () {
+        prov.switches(false);
+        print('Timer is done!');
+      },
+    ):SizedBox()
             ],
           ),
           

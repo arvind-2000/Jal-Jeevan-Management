@@ -12,7 +12,10 @@ class ErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
     return Center(
-      child: CardStyle(
+      child:prov.isLoading?CircularProgressIndicator(
+
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ) :CardStyle(
         child: Container(
           padding: EdgeInsets.all(20),
           margin: const EdgeInsets.symmetric(vertical: 60),

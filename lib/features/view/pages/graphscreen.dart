@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/pages/tablescreen.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 import 'package:waterlevelmonitor/features/view/widgets/chartwidgets.dart';
@@ -22,11 +23,12 @@ class GraphScreen extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       child:prov.allwaterlevellist.isEmpty?ProgressController(): Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Water Records'),
+              const Text('Water Levels'),
               Row(
                 children: [
                   // IconButton(
@@ -64,7 +66,13 @@ class GraphScreen extends StatelessWidget {
               ),
             ],
           ),
-         prov.isgraph==2?const TableScreen():const ChartWidget()
+
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Text(prov.recordtime==0?'${getDate(prov.currentdate)}\nMinutes':prov.recordtime==1?'${months[prov.currentdate.month-1]} ${prov.currentdate.year}':'${prov.currentdate.year}',textAlign: TextAlign.left,style: TextStyle(fontSize: 14),),
+          ),
+
+         prov.isgraph==2?const TableScreen():const ChartWidget(type: 0,)
         ],
       ),
     ));

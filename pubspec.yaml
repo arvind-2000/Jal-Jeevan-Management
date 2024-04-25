@@ -41,7 +41,7 @@ dependencies:
   flutter_animate: ^4.5.0
   syncfusion_flutter_charts: ^24.1.45
   intl: ^0.18.1
-  order_tracker: ^0.0.2
+  timer_count_down: ^2.2.0
 
 dev_dependencies:
   flutter_test:

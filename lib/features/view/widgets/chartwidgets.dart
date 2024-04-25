@@ -7,14 +7,20 @@ import 'package:waterlevelmonitor/features/domain/entities/waterlevelentity.dart
 import '../provider/waterlevelprovider.dart';
 
 class ChartWidget extends StatelessWidget {
-  const ChartWidget({super.key});
-
+  const ChartWidget({super.key,
+  
+  required this.type
+  });
+  final int type;
   @override
   Widget build(BuildContext context) {
       final prov = Provider.of<WaterLevelProvider>(context);
     return Expanded(
       child: Container(
-        padding:const EdgeInsets.only(top:16,bottom: 16,right: 16),
+        padding:const EdgeInsets.only(
+          top:8,
+          
+          right: 16),
           child: SfCartesianChart(
       zoomPanBehavior: ZoomPanBehavior(
            
@@ -28,7 +34,6 @@ class ChartWidget extends StatelessWidget {
                 enableSelectionZooming: true
            
               ),
-      
               tooltipBehavior: TooltipBehavior(enable: true,
               color: Theme.of(context).colorScheme.primary,
               textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
@@ -67,11 +72,11 @@ class ChartWidget extends StatelessWidget {
                width: 0
              ),
 
-             axisLabelFormatter: prov.recordtime==1||prov.recordtime==0?(axisLabelRenderArgs) => ChartAxisLabel(  prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) :(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
+             axisLabelFormatter: prov.recordtime==1?(axisLabelRenderArgs) => ChartAxisLabel(  prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) :prov.recordtime==0?(axisLabelRenderArgs) => ChartAxisLabel(  ' ${prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.hour.toString()}:${prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.minute.toString()} ',const TextStyle(fontSize:12)):(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.allwaterlevellist[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
             interval:1,
           ),
       
-          series:[  prov.isgraph == 1?barcharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary):linecharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary)],
+          series:[  prov.isgraph == 1?barcharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary,type):linecharts(prov.allwaterlevellist, 0, Theme.of(context).colorScheme.secondary,type)],
           )
       ),
     );
@@ -83,7 +88,7 @@ class ChartWidget extends StatelessWidget {
     List<WaterLevel> waterLevel,
     int index,
     Color color,
-
+    int type
   ) {
     return SplineAreaSeries(
         animationDelay: 1,
@@ -91,7 +96,6 @@ class ChartWidget extends StatelessWidget {
         enableTooltip: true,
         markerSettings: MarkerSettings(
           isVisible: true,
-          
           color:color.withOpacity(0.4),
           borderWidth: 0,
           shape: DataMarkerType.circle
@@ -114,26 +118,32 @@ class ChartWidget extends StatelessWidget {
           return index;
         },
       
-        yValueMapper: (d, i) => d.level);
+        yValueMapper: (d, i) =>type==0?d.level:d.totalflow);
   }
 
 ColumnSeries<WaterLevel, int> barcharts(
     List<WaterLevel> waterLevels,
     int index,
     Color color,
+    int type
   ) {
     return ColumnSeries(
         animationDelay: 1,
         animationDuration: 0.3,
         enableTooltip: true,
         trackColor: Colors.red,
+        
         onPointTap: (c){
-      
+        
         },
+        width: 0.3,
+        initialIsVisible: true,
+        spacing: 0.0,
         color:color,
-        borderColor:color,
-        borderWidth: 1,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8)),
+      
+    
+
+        // borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8)),
         // splineType: SplineType.natural,
         // gradient: LinearGradient(
         //     colors: [Colors.transparent, Colors.transparent],
@@ -143,7 +153,7 @@ ColumnSeries<WaterLevel, int> barcharts(
         xValueMapper: (datum, index) {
           return index;
         },
-        yValueMapper: (d, i) => d.level);
+        yValueMapper: (d, i) =>type==0?d.level:d.totalflow);
   }
 
 

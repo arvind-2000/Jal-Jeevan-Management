@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../domain/entities/waterlevelentity.dart';
-
 class RadialBarScreen extends StatelessWidget {
   const RadialBarScreen({
     super.key,
@@ -19,6 +17,7 @@ class RadialBarScreen extends StatelessWidget {
     return SfCircularChart(
     
       series: [RadialBarSeries(
+        animationDuration: 800,
         strokeWidth: 0.5,
           useSeriesColor: true,
           trackOpacity: 0.3,

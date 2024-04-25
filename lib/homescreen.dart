@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body:  SafeArea(
-          child:prov.response!=1 && !prov.isLoading?const FadeAnimation(child: ErrorScreen()) :const FadeAnimation(
+          child:prov.response!=1?const FadeAnimation(child: ErrorScreen()) :const FadeAnimation(
             child: SizedBox(
                     child: Row(
             children: [
@@ -45,23 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     NavBarPage(),
                     Expanded(
-                      child: Row(
-                        children: [
-                          WaterLevelInfo(),
-                          Expanded(
-                              child: SizedBox(
-                            width: double.infinity,
-                            height: double.infinity,
-                            child: Column(
-                              children: [
-                                Expanded(flex: 4, child: GraphScreen()),
-                                Expanded(flex: 2, child: ReportScreen())
-                              ],
-                            ),
-                          )),
-                        ],
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            WaterLevelInfo(),
+                            SizedBox(width: 20,),
+                            Expanded(
+                                child: SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: Column(
+                                children: [
+                                  Expanded(flex: 4, child: GraphScreen()),
+                                  SizedBox(height: 20,),
+                                  Expanded(flex: 2, child: ReportScreen())
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
                       ),
                     ),
+                    SizedBox(height: 30,)
                   ],
                 ),
               ),

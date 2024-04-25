@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:waterlevelmonitor/core/const.dart';
@@ -21,16 +22,20 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   DateTime currentdate = DateTime.now();
   int response = 0;
 
-
+  int selecTimeSchedule = 0;
+  int timeschedule = 5*60;
 
   void getDatass() async {
     isLoading = true;
     getLatestdata();
     getAlldata();
     changeData();
-    //scheduletimer();
+
     checkConnection();
-  notifyListeners();
+    notifyListeners();
+
+    schedulePumptimer();
+    scheduleAlltimer();
   }
 
 
@@ -67,12 +72,14 @@ log('in all');
     log('$response  $isLoading');
   });
 
-
-
-
-
 }
 
+
+void changeTimeSchedule(int value,int option){
+  timeschedule = value*60;
+  selecTimeSchedule = option;
+  notifyListeners();
+}
 
 
 void checkConnection(){
@@ -94,37 +101,39 @@ void cancelTimer(){
 
 
 
-// void scheduletimer() async{
-//   // isOnoff = await pump();
-//   notifyListeners();
+void schedulePumptimer() async{
+  // isOnoff = await pump();
+  notifyListeners();
 
-//   _scheduler = Timer.periodic(const Duration(seconds: 10), (timer)  async{ 
-//     getLatestdata();
-//     checkConnection();
-// http.get(Uri.parse(api)).then((value){
+  _scheduler = Timer.periodic(const Duration(seconds: 5), (timer)  async{ 
+    getLatestdata();
+    checkConnection();
+ if(_waterlevellist.last.elevation==1){
+      checkthreshold();
+    }
+  // isOnoff = await pump();
 
-//   if (value.statusCode == 200) {
-//           // print('okay in service');
-//           var data = jsonDecode(value.body) as Map<String, dynamic>;
-//           print("$data");
-//           isOnoff =  data['isActive'];
-//         } else {
-//           if (value.statusCode == 500) {
-//             print('server error');
-        
-//           } else {
-//             print('client error');
+    notifyListeners();
+   
 
-//           }
-//         }
-//   notifyListeners();
-// });
+  });
+}
 
-//   // isOnoff = await pump();
 
-//     notifyListeners();
-//   });
-// }
+
+void scheduleAlltimer() async{
+
+  notifyListeners();
+
+  _scheduler = Timer.periodic(const Duration(minutes: 10), (timer)  async{ 
+    getAlldata();
+    checkConnection();
+
+    notifyListeners();
+
+  });
+}
+
 
 
   void changeGraph(int value){
@@ -159,7 +168,12 @@ void cancelTimer(){
   }
 
 
- 
+ void checkthreshold(){
+    if(_waterlevellist.last.level>=thresholdlevel){
+      switches(false);
+    }
+
+ }
  
  
  
@@ -189,6 +203,13 @@ notifyListeners();
 
   }
 
+
+void starttimer(){
+
+
+
+
+}
   
 
   

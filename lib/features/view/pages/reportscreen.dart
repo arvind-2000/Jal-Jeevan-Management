@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
-import 'package:waterlevelmonitor/features/view/widgets/radialbar.dart';
+import 'package:waterlevelmonitor/features/view/widgets/chartwidgets.dart';
 
 import '../widgets/cardstyle.dart';
 
@@ -18,11 +17,6 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
 
-   List<TextDto> orderList = [
-    TextDto("Your order has been placed", "Fri, 25th Mar '22 - 10:47pm"),
-    TextDto("Seller ha processed your order", "Sun, 27th Mar '22 - 10:19am"),
-    TextDto("Your item has been picked up by courier partner.", "Tue, 29th Mar '22 - 5:00pm"),
-  ];
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
@@ -36,28 +30,10 @@ class _ReportScreenState extends State<ReportScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
          const Text('Pump History'),
+         const SizedBox(height: 10,),
             Expanded(
               child: Row(
                 children: [
-                //  Expanded(
-                //     flex: 3,
-                //     child: ListView(
-                //        shrinkWrap: true,
-                //        scrollDirection: Axis.horizontal,
-                //        physics: BouncingScrollPhysics(),
-                //          children: [
-                //            Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',),
-                //             Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',),
-                //             Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',),
-                //            Dots(times: '2.8.2024\n12mins',)
-                //          ],
-                //        ),
-                //   ),
                 CardStyle(child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -71,27 +47,36 @@ class _ReportScreenState extends State<ReportScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Total Flow'),
+                            Text('Total Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                               Text('${prov.waterlevellist.last.totalflow.toStringAsFixed(2)} $flowunit',style:const TextStyle(fontSize: 20),),
                              
                             ],
                           )
                         ],
                       ),
-                    // Container(
-                    //  height: 60,
-                    //  width: 60,              
-                    //   padding:const EdgeInsets.all(16),
-                    //   margin:const EdgeInsets.all(16),
-                    //   child: RadialBarScreen(waterLevellist: prov.waterlevellist.last.totalflow),
-                    //   )
+             
                       
                 
                 
                     ],
                   ),
-                ))
-                       
+                )),
+                            Expanded(
+                              child: Container(
+                                                 
+                                               padding:const EdgeInsets.only(left: 16*2),   
+                                                    child:Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                             Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(prov.recordtime==0?'${getDate(prov.currentdate)}\nMinutes':prov.recordtime==1?'${months[prov.currentdate.month-1]} ${prov.currentdate.year}':'${prov.currentdate.year}',textAlign: TextAlign.left,style: TextStyle(fontSize: 12),),
+          ),
+                                                        const ChartWidget(type: 1,),
+                                                      ],
+                                                    )
+                                                    ),
+                            )  
                 ],
               ),
             )

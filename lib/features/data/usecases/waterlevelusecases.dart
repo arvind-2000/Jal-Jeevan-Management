@@ -29,7 +29,7 @@ class UseCasesModel {
         elevation: 0,
         totalflow: 0.0);
 
-  log(' In convert values $name $level  $flow  $date' );
+  // log(' In convert values $name $level  $flow  $date' );
     try {
       d.name = name;
       d.level = double.tryParse(level)??0;
@@ -48,63 +48,77 @@ class UseCasesModel {
 
 
 List<WaterLevel> monthly(List<WaterLevel> data,DateTime dates){
-  List<WaterLevel>  da = data;
-  List<WaterLevel> temp = [];
-  int tempdate = 0;
-  da.sort((a,b)=>b.date.compareTo(a.date));
 
-    temp.add(data.first);
+  List<WaterLevel> temp = [];
+
+  int tempdate = 0;
+  if (data.isNotEmpty) {
+      List<WaterLevel>  da = data;
+  da.sort((a,b)=>b.date.compareTo(a.date));
+  
+    // temp.add(data.first);
     // tempdate = da.first.date.month;
   for(WaterLevel d in da){
-
+  
       if(d.date.year==dates.year){
+  
+          if(d.date.month == dates.month){
 
-          if(d.date.month != tempdate){
-            tempdate = d.date.month;
-                temp.add(d);
-
+            if(d.date.day!=tempdate){
+              tempdate = d.date.day;
+              temp.add(d);
+            }
+       
+             
           }
-
+  
       }
-
-
+  
+  
   }
   temp.sort((a,b)=>a.date.compareTo(b.date));
+
+}
   return temp;
   
 }
 
 List<WaterLevel> weekly(List<WaterLevel> data,DateTime dates){
-  List<WaterLevel>  da = data;
-  List<WaterLevel> temp = [];
-  int tempdate = 0;
-  da.sort((a,b)=>b.date.compareTo(a.date));
 
-    temp.add(data.first);
+  List<WaterLevel> temp = [];
+
+  int tempdate = 0;
+  if (data.isNotEmpty) {
+
+  List<WaterLevel>  da = data;
+  da.sort((a,b)=>b.date.compareTo(a.date));
+  
+    // temp.add(data.first);
     // tempdate = da.first.date.month;
   for(WaterLevel d in da){
-
+  
       if(d.date.year==dates.year){
-
+  
           if(d.date.month == dates.month){
             if(d.date.day == dates.day){
                 
-                if(d.date.second!=tempdate){
-                tempdate = d.date.hour;
+                if(d.date.minute!=tempdate){
+                tempdate = d.date.minute;
                 temp.add(d);
                 }
           
-
+  
             }
             
-
+  
           }
-
+  
       }
-
-
+  
+  
   }
   temp.sort((a,b)=>a.date.compareTo(b.date));
+}
   return temp;
   
 }
@@ -152,11 +166,10 @@ List<WaterLevel> weekly(List<WaterLevel> data,DateTime dates){
 
     
     try{
-        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${value?1:0}');
+        // Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${value?1:0}');
+        Uri url  = Uri.parse('$changestatusapi$value'); 
         log(url.toString());
         final response = await http.post(url);
-        
-        
         res = response.statusCode;
     
         log('change pump switch: $res');
