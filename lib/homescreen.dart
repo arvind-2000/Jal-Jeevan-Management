@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
 import 'package:waterlevelmonitor/core/error/errorscreen.dart';
+import 'package:waterlevelmonitor/features/view/pages/tablescreen.dart';
+import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
+import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
 
 import 'features/view/pages/graphscreen.dart';
 import 'features/view/pages/reportscreen.dart';
@@ -22,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<WaterLevelProvider>(context, listen: false).getDatass();
+      
+
     });
     super.initState();
 
@@ -30,31 +35,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
+    final selectprov = Provider.of<PageSelectProvider>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body:  SafeArea(
-          child:prov.response!=1?const FadeAnimation(child: ErrorScreen()) :const FadeAnimation(
-            child: SizedBox(
-                    child: Row(
-            children: [
-              SizedBox(
-                width: 80,
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    NavBarPage(),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            WaterLevelInfo(),
-                            SizedBox(width: 20,),
-                            Expanded(
-                                child: SizedBox(
-                              width: double.infinity,
-                              height: double.infinity,
+          child:prov.response!=1?const FadeAnimation(child: ErrorScreen()) :SizedBox(
+                  child: Row(
+          children: [
+           const  SizedBox(
+              width: 80,
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  const FadeAnimation(child:NavBarPage()),
+                  Expanded(
+                    child: Padding(
+                      padding:const  EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          const FadeAnimation(child: WaterLevelInfo()),
+                          const SizedBox(width: 20,),
+                          Expanded(
+                              child: SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child:selectprov.pageSelect==0? const FadeAnimation(
                               child: Column(
                                 children: [
                                   Expanded(flex: 4, child: GraphScreen()),
@@ -62,22 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(flex: 2, child: ReportScreen())
                                 ],
                               ),
-                            )),
-                          ],
-                        ),
+                            ):const FadeAnimation(child: TableScreen()),
+                          )),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 30,)
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 80,
-              ),
-            ],
-                    ),
                   ),
-          )),
+                  SizedBox(height: 30,)
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 80,
+            ),
+          ],
+                  ),
+                )),
     );
   }
 }

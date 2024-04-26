@@ -123,6 +123,23 @@ List<WaterLevel> weekly(List<WaterLevel> data,DateTime dates){
   
 }
 
+List<double> avg(List<WaterLevel> wat){
+  double dlev = 0.0;
+  double dflow = 0.0;
+  double dtemp = 0.0;
+
+  for(WaterLevel i in wat){
+    dlev = dlev + i.level;
+    dflow = dflow + i.totalflow;
+    dtemp = dtemp + i.temp;
+  }
+
+
+
+
+  return [(dlev/wat.length),(dflow/wat.length),(dtemp/wat.length)];
+
+}
 
 
 

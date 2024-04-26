@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/themes/darkthemes.dart';
+import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
+import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
 import 'package:waterlevelmonitor/homescreen.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
     return 
     MultiProvider(providers: [
 
-        ChangeNotifierProvider(create: (c)=>WaterLevelProvider())
+        ChangeNotifierProvider(create: (c)=>WaterLevelProvider()),
+        ChangeNotifierProvider(create: (c)=> PageSelectProvider()),
+        ChangeNotifierProvider(create: (c)=> Filterprovider()),
+
     ],
     child: MaterialApp(
       title: appname,

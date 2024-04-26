@@ -29,7 +29,7 @@ class _ReportScreenState extends State<ReportScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         const Text('Pump History'),
+         const Text('Water Flow'),
          const SizedBox(height: 10,),
             Expanded(
               child: Row(

@@ -10,14 +10,15 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   List<WaterLevel> _waterlevellist = [];
   List<WaterLevel> _allwaterlevellist = [];
   List<WaterLevel> _allfix = [];
-  List<WaterLevel> get waterlevellist => _waterlevellist;
   List<WaterLevel> get allwaterlevellist => _allwaterlevellist;
+  List<WaterLevel> get waterlevellist => _waterlevellist;
+  List<WaterLevel> get allfixwaterlevellist => _allfix;
 
   dynamic _scheduler;
 
   bool isLoading = false;
   int isgraph = 0;
-  int recordtime = 0;
+  int recordtime = 1;
   bool isOnoff = false;
   DateTime currentdate = DateTime.now();
   int response = 0;

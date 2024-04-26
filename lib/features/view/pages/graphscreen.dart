@@ -22,7 +22,7 @@ class GraphScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       width: double.infinity,
       height: double.infinity,
-      child:prov.allwaterlevellist.isEmpty?ProgressController(): Column(
+      child:prov.allwaterlevellist.isEmpty?const Center(child: Text('No Data'),): Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(

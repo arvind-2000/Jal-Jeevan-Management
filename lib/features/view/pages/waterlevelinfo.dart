@@ -81,7 +81,6 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                     ],
                   ),
                   Switch(
-                    splashRadius: 6,
               
                     hoverColor: prov.isOnoff?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
                     value: prov.isOnoff, onChanged: (value){
@@ -121,7 +120,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
       interval: const Duration(seconds: 1),
 
       onFinished: () {
-        prov.switches(false);
+        // prov.switches(false);
         print('Timer is done!');
       },
     ):SizedBox()
