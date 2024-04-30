@@ -15,14 +15,15 @@ class RadialBarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     log('${waterLevellist}');
     return SfCircularChart(
-    
+      
       series: [RadialBarSeries(
         animationDuration: 800,
         strokeWidth: 0.5,
           useSeriesColor: true,
           trackOpacity: 0.3,
+          strokeColor: Theme.of(context).colorScheme.secondary,
         innerRadius:'60',
-      
+        cornerStyle: CornerStyle.bothCurve,    
         xValueMapper: (c,i){
         return i;
       }, yValueMapper:(c,i){

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
+import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/core/error/errorscreen.dart';
 import 'package:waterlevelmonitor/features/view/pages/tablescreen.dart';
 import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
@@ -36,54 +37,59 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
     final selectprov = Provider.of<PageSelectProvider>(context);
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body:  SafeArea(
-          child:prov.response!=1?const FadeAnimation(child: ErrorScreen()) :SizedBox(
-                  child: Row(
-          children: [
-           const  SizedBox(
-              width: 80,
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  const FadeAnimation(child:NavBarPage()),
-                  Expanded(
-                    child: Padding(
-                      padding:const  EdgeInsets.all(16),
+    return LayoutBuilder(
+      builder: (context,constraint) {
+        double size = constraint.maxWidth;
+        return Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          body:  SafeArea(
+              child:prov.response!=1?const FadeAnimation(child: ErrorScreen()) :SizedBox(
                       child: Row(
-                        children: [
-                          const FadeAnimation(child: WaterLevelInfo()),
-                          const SizedBox(width: 20,),
-                          Expanded(
-                              child: SizedBox(
-                            width: double.infinity,
-                            height: double.infinity,
-                            child:selectprov.pageSelect==0? const FadeAnimation(
-                              child: Column(
-                                children: [
-                                  Expanded(flex: 4, child: GraphScreen()),
-                                  SizedBox(height: 20,),
-                                  Expanded(flex: 2, child: ReportScreen())
-                                ],
-                              ),
-                            ):const FadeAnimation(child: TableScreen()),
-                          )),
-                        ],
+              children: [
+        SizedBox(
+                width:size>screensize?80:0,
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      NavBarPage(),
+                      Expanded(
+                        child: Padding(
+                          padding:const  EdgeInsets.all(16),
+                          child: size>screensize?Row(
+                            children: [
+                              WaterLevelInfo(),
+                              const SizedBox(width: 20,),
+                              Expanded(
+                                  child: SizedBox(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child:selectprov.pageSelect==0? const FadeAnimation(
+                                  child: Column(
+                                    children: [
+                                      Expanded(flex: 4, child: GraphScreen()),
+                                      SizedBox(height: 20,),
+                                      Expanded(flex: 2, child: ReportScreen())
+                                    ],
+                                  ),
+                                ):const FadeAnimation(child: TableScreen()),
+                              )),
+                            ],
+                          ):const FadeAnimation(child: WaterLevelInfo()),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 30,)
+                    ],
                   ),
-                  SizedBox(height: 30,)
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 80,
-            ),
-          ],
-                  ),
-                )),
+                ),
+             SizedBox(
+                  width:size>screensize?80:0,
+                ),
+              ],
+                      ),
+                    )),
+        );
+      }
     );
   }
 }

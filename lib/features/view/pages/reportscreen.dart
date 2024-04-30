@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
-import 'package:waterlevelmonitor/features/view/widgets/chartwidgets.dart';
+import 'package:waterlevelmonitor/features/view/widgets/radialbar.dart';
+
 
 import '../widgets/cardstyle.dart';
+import '../widgets/cardstyle2.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({
@@ -29,12 +33,12 @@ class _ReportScreenState extends State<ReportScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         const Text('Water Flow'),
-         const SizedBox(height: 10,),
+        //  const Text('Water Flow'),
+        //  const SizedBox(height: 10,),
             Expanded(
               child: Row(
                 children: [
-                CardStyle(child: Padding(
+                CardStyleII(child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,22 +65,140 @@ class _ReportScreenState extends State<ReportScreen> {
                     ],
                   ),
                 )),
-                            Expanded(
-                              child: Container(
-                                                 
-                                               padding:const EdgeInsets.only(left: 16*2),   
-                                                    child:Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                             Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(prov.recordtime==0?'${getDate(prov.currentdate)}\nMinutes':prov.recordtime==1?'${months[prov.currentdate.month-1]} ${prov.currentdate.year}':'${prov.currentdate.year}',textAlign: TextAlign.left,style: TextStyle(fontSize: 12),),
-          ),
-                                                        const ChartWidget(type: 1,),
-                                                      ],
-                                                    )
-                                                    ),
-                            )  
+                SizedBox(width: 20,),
+                 Expanded(
+                   child: CardStyle(child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Stack(
+                      children: [
+                          Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            height: 120,
+                            width: 120,
+                            child: RadialBarSmall(value: prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0],),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('This Month',style: TextStyle(),),
+                                Row(
+                           
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                    SizedBox(width: 30,),
+                                       Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                    SizedBox(width: 30,),
+                                       Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                                    
+                            
+                                       
+                                       
+                          ],
+                        ),
+                      ],
+                    ),
+                                   )),
+                 ),
+                 SizedBox(width: 20,),
+            Expanded(
+                   child: CardStyle(child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            height: 120,
+                            width: 120,
+                            child: RadialBarSmall(value: prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0],),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('This Year',style: TextStyle(),),
+                                Row(
+                           
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                    SizedBox(width: 30,),
+                                       Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                    SizedBox(width: 30,),
+                                       Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                       
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                                    
+                            
+                                       
+                                       
+                          ],
+                        ),
+                      ],
+                    ),
+                                   )),
+                 ),
                 ],
               ),
             )
@@ -84,6 +206,37 @@ class _ReportScreenState extends State<ReportScreen> {
         ],
       ),
     ));
+  }
+}
+
+class RadialBarSmall extends StatelessWidget {
+  const RadialBarSmall({
+    super.key,
+    required this.value
+  });
+ final double value;
+  @override
+  Widget build(BuildContext context) {
+    return SfCircularChart(
+          
+          series: [RadialBarSeries(
+            animationDuration: 800,
+            strokeWidth: 0.5,
+              useSeriesColor: true,
+              trackOpacity: 0.3,
+              strokeColor: Theme.of(context).colorScheme.secondary,
+            innerRadius:'30',
+            cornerStyle: CornerStyle.bothCurve,    
+            xValueMapper: (c,i){
+            return i;
+          }, yValueMapper:(c,i){
+         
+            return value;
+          },
+          maximumValue: 500,
+        dataSource: [value],
+          )],
+        );
   }
 }
 

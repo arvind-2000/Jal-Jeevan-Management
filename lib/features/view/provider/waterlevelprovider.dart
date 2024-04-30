@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:waterlevelmonitor/core/const.dart';
+import 'package:waterlevelmonitor/core/dummy.dart';
 import 'package:waterlevelmonitor/features/data/repositories/watermodelrepositories.dart';
 import 'package:waterlevelmonitor/features/domain/entities/waterlevelentity.dart';
 
@@ -36,7 +37,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
     notifyListeners();
 
     schedulePumptimer();
-    scheduleAlltimer();
+    // scheduleAlltimer();
   }
 
 
@@ -60,18 +61,23 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
 
 void getAlldata() async{
 
-  await  getWaterLevel(url:feedapi).then((value){
+//   await  getWaterLevel(url:feedapi).then((value){
 
-    _allfix = value.entries.first.key;
+//     _allfix = value.entries.first.key;
 
-    response = value.entries.first.value;
+//     response = value.entries.first.value;
 
+//     checkConnection();
+//     changeData();
+//     notifyListeners();
+// log('in all');
+//     log('$response  $isLoading');
+//   });
+    _allfix = waterleveldummy;
+    response = 1;
     checkConnection();
     changeData();
     notifyListeners();
-log('in all');
-    log('$response  $isLoading');
-  });
 
 }
 
@@ -110,7 +116,7 @@ void schedulePumptimer() async{
     getLatestdata();
     checkConnection();
  if(_waterlevellist.last.elevation==1){
-      checkthreshold();
+      // checkthreshold();
     }
   // isOnoff = await pump();
 

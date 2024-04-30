@@ -19,7 +19,7 @@ class TableScreen extends StatelessWidget {
     final prov = Provider.of<Filterprovider>(context);
     final prov2 = Provider.of<WaterLevelProvider>(context);
     final selecprov = Provider.of<PageSelectProvider>(context);
-    prov.init(prov2.allwaterlevellist);
+    prov.init(prov2.allfixwaterlevellist);
     
     return Expanded(
       child: Row(

@@ -21,6 +21,7 @@ Color backgroundcolor = const Color.fromARGB(255,6,24,49);
 Color primarydark = const Color.fromARGB(255, 21, 21, 24);
 Color secondarycolor = const  Color.fromARGB(255, 32, 114, 238);
 
+double screensize = 550;
 
 double thresholdlevel = 300;
 
