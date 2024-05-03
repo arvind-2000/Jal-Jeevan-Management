@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PageSelectProvider with ChangeNotifier{
 
     int pageSelect = 0 ;
-
+    bool filterselect = false;
 
     void changePage(int value){
 
@@ -14,5 +14,12 @@ class PageSelectProvider with ChangeNotifier{
     }
 
 
+    void changeFilter(){
+
+          filterselect = !filterselect;
+          notifyListeners();
+
+    
+    }
 
 }

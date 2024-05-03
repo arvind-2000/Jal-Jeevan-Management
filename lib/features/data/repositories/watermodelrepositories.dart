@@ -135,6 +135,33 @@ int response = 0;
      return  {datas:res};
 
   }
+  
+  @override
+  Future<Map<bool, int>> getStatus({required String url})  async{
+     bool d = false;
+     int res = 0;
+
+
+ try {
+  final response = await http.get(Uri.parse(url));
+      
+    print('in service response');
+    if (response.statusCode == 200) {
+
+      // print('okay in service');
+      log('In service response');
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+        log('in data field ${data['feeds'].length}');
+      d = data['channnel']['isActive'];    
+        }
+} on Exception catch (e) {
+    log("in client error");
+    res = 4;
+}
+ 
+  return {d:res};
+ 
+  }
 
 
 

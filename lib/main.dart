@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/themes/darkthemes.dart';
+import 'package:waterlevelmonitor/core/themes/lighttheme.dart';
 import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
 import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
 import 'package:waterlevelmonitor/homescreen.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
-
+import 'package:flutter_bootstrap5/flutter_bootstrap5.dart';
 import 'core/const.dart';
 
 void main() {
@@ -26,11 +27,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (c)=> Filterprovider()),
 
     ],
-    child: MaterialApp(
-      title: appname,
-      debugShowCheckedModeBanner: false,
-      theme: darktheme,
-      home: const HomeScreen(),
+    child: FlutterBootstrap5(
+      builder: (c){
+        return MaterialApp(
+        title: appname,
+        debugShowCheckedModeBanner: false,
+        theme: BootstrapTheme.of(context).toTheme(theme: darktheme),
+        home: const HomeScreen(),
+      );
+      },
+      
     ));
   }
 }

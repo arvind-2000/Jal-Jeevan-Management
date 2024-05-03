@@ -13,9 +13,10 @@ String channelid = "216821";
 String tempunit = "°C";
 String flowunit = "m/s";
 String levelunit = "L";
-
+List<Color> datacolors = [secondarycolor,secondarycolor.withOpacity(0.6),secondarycolor.withOpacity(0.3)];
 List<String>  months = ['Jan','Feb','Mar','Apl','May','June','July','Aug','Sep','Oct','Nov','Dec'];
-
+List<String> dataseriesindicator = ['Level','Flow','Temp'];
+List<String> measurementindicator = [levelunit,flowunit,tempunit];
 Color primarycolor = const Color.fromARGB(255,17,36,74);
 Color backgroundcolor = const Color.fromARGB(255,6,24,49);
 Color primarydark = const Color.fromARGB(255, 21, 21, 24);

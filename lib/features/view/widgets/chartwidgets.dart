@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -19,84 +21,103 @@ class ChartWidget extends StatelessWidget {
     return Expanded(
       child: Container(
       
-          child: Row(
+          child: MediaQuery.of(context).size.width>screensize?Row(
             children: [
               Expanded(
                 child: CardStyle(
-                  child: Container(
-                    padding:const EdgeInsets.all(16),
-                    child: Stack(
-                      children: [
-
-                        SfCartesianChart(
-                              zoomPanBehavior: ZoomPanBehavior(
-                         
-                              enableMouseWheelZooming: true,
-                              enablePanning: true,
-                              
-                              // maximumZoomLevel: 1,  
-                              // enablePinching: true,
-                           
-                              zoomMode: ZoomMode.x,
-                              enableSelectionZooming: true
-                         
-                            ),
-                            tooltipBehavior: TooltipBehavior(enable: true,
-                            color: Theme.of(context).colorScheme.primary,
-                            textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
-                            ),
-                            borderWidth: 0,
-                        
-                            borderColor: Colors.transparent,
-                            margin: EdgeInsets.zero,
-                            plotAreaBorderColor: Colors.transparent,
-                            plotAreaBorderWidth: 0,
-                            // title: ChartTitle(
-                            //   text: prov.graphDataList[0].name,
-                            //   alignment: ChartAlignment.near,
-                            //   borderWidth: 8
-                            // ),
-                            enableAxisAnimation: true,
-                            
-                            
-                            primaryYAxis:const NumericAxis(
-                          isVisible: false,  
-                                 majorGridLines: MajorGridLines(
-                                  
-                             width: 0
-                           ),
-                            desiredIntervals: 10,
-                              decimalPlaces: 0,
-                              minimum: 0.0,
-                              interval: 50,
-                            
-                              
-                            ),
-                          primaryXAxis: NumericAxis(
-                            
-                               majorGridLines:const MajorGridLines(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding:const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('This Month',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                  SizedBox(height:20,),
+                                  Text('Water Level',style: TextStyle(fontSize: 20),),
+                                  SizedBox(height: 10,),
+                                  Text('${prov.monthly(prov.allfixwaterlevellist, DateTime.now()).last.level.toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
+                                ],
+                              ),
+                              Expanded(
+                                child: SfCartesianChart(
+                                      zoomPanBehavior: ZoomPanBehavior(
                                  
-                             width: 0
-                           ),
-                        
-                           axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  prov.monthly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) ,
-                          interval:1,
-                        ),
+                                      enableMouseWheelZooming: true,
+                                      enablePanning: true,
+                                      
+                                      // maximumZoomLevel: 1,  
+                                      // enablePinching: true,
+                                   
+                                      zoomMode: ZoomMode.x,
+                                      enableSelectionZooming: true
+                                 
+                                    ),
+                                    tooltipBehavior: TooltipBehavior(enable: true,
+                                    builder: (data, point, series, pointIndex, seriesIndex) {
+                                      return Text('Date ${prov.monthly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.day}\n${data.level} $levelunit',style: TextStyle(fontSize: 12),);
+                                    },
+                                    color: Theme.of(context).colorScheme.primary,
+                                    textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
+                                    ),
+                                    borderWidth: 0,
+                                
+                                    borderColor: Colors.transparent,
+                                    margin: EdgeInsets.zero,
+                                    plotAreaBorderColor: Colors.transparent,
+                                    plotAreaBorderWidth: 0,
+                                    // title: ChartTitle(
+                                    //   text: prov.graphDataList[0].name,
+                                    //   alignment: ChartAlignment.near,
+                                    //   borderWidth: 8
+                                    // ),
+                                    enableAxisAnimation: true,
+                                    
+                                    
+                                    primaryYAxis:const NumericAxis(
+                                  isVisible: false,  
+                                         majorGridLines: MajorGridLines(
+                                          
+                                     width: 0
+                                   ),
+                                    desiredIntervals: 10,
+                                      decimalPlaces: 0,
+                                      minimum: 0.0,
+                                      interval: 50,
+                                    
+                                      
+                                    ),
+                                  primaryXAxis: NumericAxis(
+                                    
+                                       majorGridLines:const MajorGridLines(
+                                         
+                                     width: 0
+                                   ),
+                                
+                                   axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  prov.monthly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) ,
+                                  interval:1,
+                                ),
+                                      
+                                series:[  linecharts(prov.monthly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
+                                ),
+                              ),
                               
-                        series:[  linecharts(prov.monthly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
+                          
+
+
+
+                            ],
+                          ),
                         ),
-                        
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('This Month',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                            SizedBox(height: 10,),
-                            Text('Water Level',style: TextStyle(fontSize: 20),),
-                            Text('${prov.allfixwaterlevellist.last.level.toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+
+            
+
+                    ],
                   ),
                 ),
               ),
@@ -106,75 +127,272 @@ class ChartWidget extends StatelessWidget {
                      child: CardStyle(
                        child: Container(
                         padding:const EdgeInsets.all(16),
-                         child: Stack(
+                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
-                 
-                             SfCartesianChart(
-                              zoomPanBehavior: ZoomPanBehavior(
-                                            
-                              enableMouseWheelZooming: true,
-                              enablePanning: true,
-                              
-                              // maximumZoomLevel: 1,  
-                              // enablePinching: true,
-                                              
-                              zoomMode: ZoomMode.x,
-                              enableSelectionZooming: true
-                                            
-                                               ),
-                                               tooltipBehavior: TooltipBehavior(enable: true,
-                                               color: Theme.of(context).colorScheme.primary,
-                                               textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
-                                               ),
-                                               borderWidth: 0,
-                                           
-                                               borderColor: Colors.transparent,
-                                               margin: EdgeInsets.zero,
-                                               plotAreaBorderColor: Colors.transparent,
-                                               plotAreaBorderWidth: 0,
-                                               // title: ChartTitle(
-                                               //   text: prov.graphDataList[0].name,
-                                               //   alignment: ChartAlignment.near,
-                                               //   borderWidth: 8
-                                               // ),
-                                               enableAxisAnimation: true,
-                                               
-                                               
-                                               primaryYAxis:const NumericAxis(
-                                   isVisible: false,        
-                                 majorGridLines: MajorGridLines(
-                                  
-                             width: 0
-                                              ),
-                                               desiredIntervals: 10,
-                                                
-                              minimum: 0.0,
-                              interval: 50,
-                                               
-                              
-                                               ),
-                                             primaryXAxis: NumericAxis(
-                                               
-                               majorGridLines:const MajorGridLines(
-                                 
-                             width: 0
-                                              ),
-                                           
-                                              axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.yearly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
-                                             interval:1,
-                                           ),
-                              
-                                           series:[  barcharts(prov.yearly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
-                                           ),
-
-                                                                 Column(
+                                                                   Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('This Year',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                          
-                             Text('${DateTime.now().year}',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
+                              SizedBox(height: 20,),
+                             Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
                           ],
                         ),
+                        SizedBox(height: 20,),
+                             Expanded(
+                               child: SfCartesianChart(
+                                zoomPanBehavior: ZoomPanBehavior(
+                                              
+                                enableMouseWheelZooming: true,
+                                enablePanning: true,
+                                
+                                // maximumZoomLevel: 1,  
+                                // enablePinching: true,
+                                                
+                                zoomMode: ZoomMode.x,
+                                enableSelectionZooming: true
+                                              
+                                                 ),
+                                               tooltipBehavior: TooltipBehavior(enable: true,
+                                    builder: (data, point, series, pointIndex, seriesIndex) {
+                                      return Text('${months[prov.yearly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.month-1]}\n${data.level} $levelunit',style: TextStyle(color: Theme.of(context).colorScheme.surface,fontSize: 14));
+                                    },
+                                          color: Theme.of(context).colorScheme.primary,
+                                    textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
+                                    
+                                    ),
+                                                 borderWidth: 0,
+                                             
+                                                 borderColor: Colors.transparent,
+                                                 margin: EdgeInsets.zero,
+                                                 plotAreaBorderColor: Colors.transparent,
+                                                 plotAreaBorderWidth: 0,
+                                                 // title: ChartTitle(
+                                                 //   text: prov.graphDataList[0].name,
+                                                 //   alignment: ChartAlignment.near,
+                                                 //   borderWidth: 8
+                                                 // ),
+                                                 enableAxisAnimation: true,
+                                                 
+                                                 
+                                                 primaryYAxis:const NumericAxis(
+                                     isVisible: false,        
+                                   majorGridLines: MajorGridLines(
+                                    
+                               width: 0
+                                                ),
+                                                 desiredIntervals: 10,
+                                                  
+                                minimum: 0.0,
+                                interval: 50,
+                                                 
+                                
+                                                 ),
+                                               primaryXAxis: NumericAxis(
+                                                 
+                                 majorGridLines:const MajorGridLines(
+                                   
+                               width: 0
+                                                ),
+                                             
+                                                axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.yearly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
+                                               interval:1,
+                                             ),
+                                
+                                             series:[  barcharts(prov.yearly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
+                                             ),
+                             ),
+
+               
+                           ],
+                         ),
+                       ),
+                     ),
+                   ),
+            ],
+          ):Column(
+            children: [
+               Expanded(
+                child: CardStyle(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding:const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('This Month',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                  SizedBox(height:20,),
+                                  Text('Water Level',style: TextStyle(fontSize: 20),),
+                                  SizedBox(height: 10,),
+                                  Text('${prov.monthly(prov.allfixwaterlevellist, DateTime.now()).last.level.toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
+                                ],
+                              ),
+                              Expanded(
+                                child: SfCartesianChart(
+                                      zoomPanBehavior: ZoomPanBehavior(
+                                 
+                                      enableMouseWheelZooming: true,
+                                      enablePanning: true,
+                                      
+                                      // maximumZoomLevel: 1,  
+                                      // enablePinching: true,
+                                   
+                                      zoomMode: ZoomMode.x,
+                                      enableSelectionZooming: true
+                                 
+                                    ),
+                                    tooltipBehavior: TooltipBehavior(enable: true,
+                                    builder: (data, point, series, pointIndex, seriesIndex) {
+                                      return Text('Date ${prov.monthly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.day}\n${data.level} $levelunit',style: TextStyle(fontSize: 12),);
+                                    },
+                                    color: Theme.of(context).colorScheme.primary,
+                                    textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
+                                    ),
+                                    borderWidth: 0,
+                                
+                                    borderColor: Colors.transparent,
+                                    margin: EdgeInsets.zero,
+                                    plotAreaBorderColor: Colors.transparent,
+                                    plotAreaBorderWidth: 0,
+                                    // title: ChartTitle(
+                                    //   text: prov.graphDataList[0].name,
+                                    //   alignment: ChartAlignment.near,
+                                    //   borderWidth: 8
+                                    // ),
+                                    enableAxisAnimation: true,
+                                    
+                                    
+                                    primaryYAxis:const NumericAxis(
+                                  isVisible: false,  
+                                         majorGridLines: MajorGridLines(
+                                          
+                                     width: 0
+                                   ),
+                                    desiredIntervals: 10,
+                                      decimalPlaces: 0,
+                                      minimum: 0.0,
+                                      interval: 50,
+                                    
+                                      
+                                    ),
+                                  primaryXAxis: NumericAxis(
+                                    
+                                       majorGridLines:const MajorGridLines(
+                                         
+                                     width: 0
+                                   ),
+                                
+                                   axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  prov.monthly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) ,
+                                  interval:1,
+                                ),
+                                      
+                                series:[  linecharts(prov.monthly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
+                                ),
+                              ),
+                              
+                          
+
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+            
+
+                    ],
+                  ),
+                ),
+              ),
+          SizedBox(height: 20,),
+
+                   Expanded(
+                     child: CardStyle(
+                       child: Container(
+                        padding:const EdgeInsets.all(16),
+                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                                                                   Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('This Year',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                              SizedBox(height: 20,),
+                             Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                             Expanded(
+                               child: SfCartesianChart(
+                                zoomPanBehavior: ZoomPanBehavior(
+                                              
+                                enableMouseWheelZooming: true,
+                                enablePanning: true,
+                                
+                                // maximumZoomLevel: 1,  
+                                // enablePinching: true,
+                                                
+                                zoomMode: ZoomMode.x,
+                                enableSelectionZooming: true
+                                              
+                                                 ),
+                                               tooltipBehavior: TooltipBehavior(enable: true,
+                                    builder: (data, point, series, pointIndex, seriesIndex) {
+                                      return Text('${months[prov.yearly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.month-1]}\n${data.level} $levelunit',style: TextStyle(color: Theme.of(context).colorScheme.surface,fontSize: 14));
+                                    },
+                                          color: Theme.of(context).colorScheme.primary,
+                                    textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)
+                                    
+                                    ),
+                                                 borderWidth: 0,
+                                             
+                                                 borderColor: Colors.transparent,
+                                                 margin: EdgeInsets.zero,
+                                                 plotAreaBorderColor: Colors.transparent,
+                                                 plotAreaBorderWidth: 0,
+                                                 // title: ChartTitle(
+                                                 //   text: prov.graphDataList[0].name,
+                                                 //   alignment: ChartAlignment.near,
+                                                 //   borderWidth: 8
+                                                 // ),
+                                                 enableAxisAnimation: true,
+                                                 
+                                                 
+                                                 primaryYAxis:const NumericAxis(
+                                     isVisible: false,        
+                                   majorGridLines: MajorGridLines(
+                                    
+                               width: 0
+                                                ),
+                                                 desiredIntervals: 10,
+                                                  
+                                minimum: 0.0,
+                                interval: 50,
+                                                 
+                                
+                                                 ),
+                                               primaryXAxis: NumericAxis(
+                                                 
+                                 majorGridLines:const MajorGridLines(
+                                   
+                               width: 0
+                                                ),
+                                             
+                                                axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.yearly(prov.allfixwaterlevellist, DateTime.now())[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) ,
+                                               interval:1,
+                                             ),
+                                
+                                             series:[  barcharts(prov.yearly(prov.allfixwaterlevellist, DateTime.now()), 0, Theme.of(context).colorScheme.secondary,type)],
+                                             ),
+                             ),
+
+               
                            ],
                          ),
                        ),
@@ -194,16 +412,19 @@ class ChartWidget extends StatelessWidget {
     Color color,
     int type
   ) {
+
+  
     return SplineAreaSeries(
         animationDelay: 1,
-        animationDuration: 0.3,
+          animationDuration:1600,
         enableTooltip: true,
+
         markerSettings: MarkerSettings(
           isVisible: true,
           color:color.withOpacity(0.4),
-          borderWidth: 0,
           shape: DataMarkerType.circle
         ),
+        
         borderColor:color,
         borderWidth: 2,
         
@@ -233,7 +454,8 @@ ColumnSeries<WaterLevel, int> barcharts(
   ) {
     return ColumnSeries(
         animationDelay: 1,
-        animationDuration: 0.3,
+        animationDuration:1600,
+
         enableTooltip: true,
         trackColor: Colors.grey.withOpacity(0.1),
         

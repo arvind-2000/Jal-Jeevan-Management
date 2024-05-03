@@ -54,7 +54,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
         double size = constraint.maxWidth;
         return Expanded(
           child: CardStyle(child:SizedBox(
-            width:size>=screensize?400:null,
+            width:size>=screensize?350:null,
           
           
             child:prov.isLoading?const ProgressController():Expanded(
@@ -150,7 +150,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                     ),
                   ),
                   Divider(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
                       height: 0.2,
                         
                         

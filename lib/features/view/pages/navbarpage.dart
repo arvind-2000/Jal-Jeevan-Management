@@ -16,7 +16,7 @@ class NavBarPage extends StatelessWidget {
     final selectprov = Provider.of<PageSelectProvider>(context);
     return Container(
       padding:const EdgeInsets.symmetric(horizontal: 16),
-        height: 100,
+        height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

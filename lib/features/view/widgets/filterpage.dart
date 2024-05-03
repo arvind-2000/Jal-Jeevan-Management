@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
+import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 import 'package:waterlevelmonitor/features/view/widgets/cardoption.dart';
 import 'package:waterlevelmonitor/features/view/widgets/cardstyle.dart';
@@ -13,6 +15,7 @@ class FilterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = Provider.of<Filterprovider>(context);
     final prov2 = Provider.of<WaterLevelProvider>(context);
+    final selecprov = Provider.of<PageSelectProvider>(context);
     return Container(
       padding: EdgeInsets.only(left: 16),
       child: CardStyle(child:
@@ -22,8 +25,12 @@ class FilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: [
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                 Text('Filter'),
+                MediaQuery.of(context).size.width>screensize?SizedBox():IconButton(onPressed: (){
+                  selecprov.changeFilter();
+                }, icon: FaIcon(FontAwesomeIcons.close,size: 12,))
               ],
             ),
 

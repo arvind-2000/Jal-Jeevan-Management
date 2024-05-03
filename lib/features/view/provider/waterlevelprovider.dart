@@ -23,7 +23,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   bool isOnoff = false;
   DateTime currentdate = DateTime.now();
   int response = 0;
-
+  bool isActive = false;
   int selecTimeSchedule = 0;
   int timeschedule = 5*60;
 
@@ -54,10 +54,26 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
    log('$response  $isLoading');
   switcheschange();
  });
+addData();
+await getStatus(url: latestapi).then((value){
+  isActive = value.entries.last.key;
+  notifyListeners();
+  switcheschange();
+});
+
 
 
   }
 
+
+void addData(){
+  DateTime d = _allfix.last.date;
+ if(d.compareTo(_waterlevellist.last.date)>=0){
+ _allfix.last == _waterlevellist.last;
+ }
+
+  notifyListeners();
+}
 
 void getAlldata() async{
 
@@ -155,9 +171,15 @@ void scheduleAlltimer() async{
 
   void switcheschange(){
     if(_waterlevellist.last.elevation==0){
+      if(isActive!=false){
+        pumpSwitch(false, _waterlevellist.last);
+      }
       isOnoff = false;
     }else{
       isOnoff = true;
+      if(isActive!=true){
+        pumpSwitch(true,_waterlevellist.last);
+      }
     }
     notifyListeners();
 

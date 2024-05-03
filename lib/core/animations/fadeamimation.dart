@@ -21,11 +21,11 @@ class _FadeAnimationState extends State<FadeAnimation> with SingleTickerProvider
   }
 
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _controller.dispose();
+  // }
   @override
   Widget build(BuildContext context) {
     return FadeTransition(opacity: fade,child: widget.child,);
