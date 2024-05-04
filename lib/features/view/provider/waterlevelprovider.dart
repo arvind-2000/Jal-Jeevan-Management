@@ -14,7 +14,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   List<WaterLevel> get allwaterlevellist => _allwaterlevellist;
   List<WaterLevel> get waterlevellist => _waterlevellist;
   List<WaterLevel> get allfixwaterlevellist => _allfix;
-
+  bool checkdata = false;
   dynamic _scheduler;
 
   bool isLoading = false;
@@ -33,15 +33,28 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
     getAlldata();
     changeData();
 
-    checkConnection();
+    // checkConnection();
     notifyListeners();
 
     schedulePumptimer();
     // scheduleAlltimer();
+    chechData();
   }
 
 
+void chechData(){
 
+  if(waterlevellist.isNotEmpty && allfixwaterlevellist.isNotEmpty && response == 1){
+    checkdata = true;
+    isLoading = false;
+  }else{
+    
+    checkdata = false;    
+
+  }
+  notifyListeners();
+
+}
 
 
   void getLatestdata() async{
@@ -50,6 +63,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
  await getWaterLevelLatest(url: latestapi).then((value){
 
   _waterlevellist = value.entries.first.key;
+
   log('in latest');
    log('$response  $isLoading');
   switcheschange();
@@ -106,11 +120,16 @@ void changeTimeSchedule(int value,int option){
 
 
 void checkConnection(){
-    isLoading = false;
+     isLoading = false;
+
     
     if(response != 1){
+      log('response $response');
       cancelTimer();
+     
     }
+
+
 
 }
 
@@ -128,7 +147,7 @@ void schedulePumptimer() async{
   // isOnoff = await pump();
   notifyListeners();
 
-  _scheduler = Timer.periodic(const Duration(seconds: 5), (timer)  async{ 
+  _scheduler = Timer.periodic(const Duration(seconds: 1), (timer)  async{ 
     getLatestdata();
     checkConnection();
  if(_waterlevellist.last.elevation==1){
@@ -171,15 +190,18 @@ void scheduleAlltimer() async{
 
   void switcheschange(){
     if(_waterlevellist.last.elevation==0){
-      if(isActive!=false){
+    
         pumpSwitch(false, _waterlevellist.last);
-      }
+      
       isOnoff = false;
     }else{
-      isOnoff = true;
-      if(isActive!=true){
+
+      if(!isActive){
         pumpSwitch(true,_waterlevellist.last);
+  
       }
+
+            isOnoff = true;
     }
     notifyListeners();
 

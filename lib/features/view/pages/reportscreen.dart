@@ -288,7 +288,7 @@ class ChartBars extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: SfCartesianChart(
-        
+            isTransposed: true,
             plotAreaBorderWidth: 0,
           
             primaryXAxis: NumericAxis(

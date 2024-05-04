@@ -13,7 +13,17 @@ String channelid = "216821";
 String tempunit = "°C";
 String flowunit = "m/s";
 String levelunit = "L";
+
+String chlorine = "mg/L";
+String turbidity = "NTU";
+String ph = "ph";
 List<Color> datacolors = [secondarycolor,secondarycolor.withOpacity(0.6),secondarycolor.withOpacity(0.3)];
+List<Color> datacolorsacid = [
+  const Color.fromARGB(255, 219, 111, 103),
+  Color.fromARGB(255, 185, 65, 131),
+  Color.fromARGB(255, 233, 184, 51)
+  
+  ];
 List<String>  months = ['Jan','Feb','Mar','Apl','May','June','July','Aug','Sep','Oct','Nov','Dec'];
 List<String> dataseriesindicator = ['Level','Flow','Temp'];
 List<String> measurementindicator = [levelunit,flowunit,tempunit];

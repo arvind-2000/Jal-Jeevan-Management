@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:waterlevelmonitor/features/domain/entities/wateracidityentity.dart';
 
 import 'package:waterlevelmonitor/features/domain/entities/waterlevelentity.dart';
 
@@ -83,6 +84,42 @@ List<WaterLevel> monthly(List<WaterLevel> data,DateTime dates){
   
 }
 
+
+List<WaterAcidityEntity> monthlyacidity(List<WaterAcidityEntity> data,DateTime dates){
+
+  List<WaterAcidityEntity> temp = [];
+
+  int tempdate = 0;
+  if (data.isNotEmpty) {
+      List<WaterAcidityEntity>  da = data;
+  da.sort((a,b)=>b.dateTime.compareTo(a.dateTime));
+  
+    // temp.add(data.first);
+    // tempdate = da.first.date.month;
+  for(WaterAcidityEntity d in da){
+  
+      if(d.dateTime.year==dates.year){
+  
+          if(d.dateTime.month == dates.month){
+
+            if(d.dateTime.day!=tempdate){
+              tempdate = d.dateTime.day;
+              temp.add(d);
+            }
+       
+             
+          }
+  
+      }
+  
+  
+  }
+  temp.sort((a,b)=>a.dateTime.compareTo(b.dateTime));
+
+}
+  return temp;
+  
+}
 List<WaterLevel> weekly(List<WaterLevel> data,DateTime dates){
 
   List<WaterLevel> temp = [];

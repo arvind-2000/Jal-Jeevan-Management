@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
-            child: prov.response != 1 &&prov.allfixwaterlevellist.isEmpty
-                ? const FadeAnimation(child: ErrorScreen())
+            child:!prov.checkdata
+                ? ErrorScreen()
                 : SizedBox(
                     child: Row(
                       children: [

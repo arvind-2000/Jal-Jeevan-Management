@@ -29,7 +29,7 @@ class TableScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect?const FilterPage():CardStyle(
+            child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<screensize ?const FilterPage():CardStyle(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

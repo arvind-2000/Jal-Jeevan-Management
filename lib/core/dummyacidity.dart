@@ -1,0 +1,35 @@
+import 'package:waterlevelmonitor/features/domain/entities/wateracidityentity.dart';
+
+List<WaterAcidityEntity> wateraciditydummies = [
+  WaterAcidityEntity(chlorine: 10, ph: 6.545305892289008, turbidity: 12, dateTime: DateTime(2024,1,24,7,43,42)),
+WaterAcidityEntity(chlorine: 16, ph: 0.4773386347295237, turbidity: 13, dateTime: DateTime(2024,5,4,16,23,38)),
+WaterAcidityEntity(chlorine: 11, ph: 2.2813933963036137, turbidity: 20, dateTime: DateTime(2024,1,27,0,12,44)),
+WaterAcidityEntity(chlorine: 4, ph: 6.414070748416758, turbidity: 25, dateTime: DateTime(2024,1,9,14,59,13)),
+WaterAcidityEntity(chlorine: 8, ph: 7.760270683427352, turbidity: 20, dateTime: DateTime(2024,1,19,15,38,52)),
+WaterAcidityEntity(chlorine: 10, ph: 4.317325620782438, turbidity: 18, dateTime: DateTime(2024,1,6,17,31,47)),
+WaterAcidityEntity(chlorine: 9, ph: 2.408216169971366, turbidity: 20, dateTime: DateTime(2024,4,1,19,39,16)),
+WaterAcidityEntity(chlorine: 17, ph: 5.600548973006782, turbidity: 25, dateTime: DateTime(2024,1,28,13,7,38)),
+WaterAcidityEntity(chlorine: 8, ph: 0.6899836637293296, turbidity: 30, dateTime: DateTime(2024,4,10,1,17,39)),
+WaterAcidityEntity(chlorine: 5, ph: 8.101180758072514, turbidity: 32, dateTime: DateTime(2024,3,30,14,51,5)),
+WaterAcidityEntity(chlorine: 4, ph: 8.875819058547184, turbidity: 36, dateTime: DateTime(2024,2,1,4,36,58)),
+// WaterAcidityEntity(chlorine: 15, ph: 11.099034191106267, turbidity: 15, dateTime: DateTime(2024,3,2,9,58,36)),
+// WaterAcidityEntity(chlorine: 0, ph: 2.0942486896636333, turbidity: 48, dateTime: DateTime(2024,4,19,15,25,30)),
+// WaterAcidityEntity(chlorine: 6, ph: 11.100677739303232, turbidity: 7, dateTime: DateTime(2024,1,23,7,56,34)),
+// WaterAcidityEntity(chlorine: 4, ph: 4.818535673797078, turbidity: 34, dateTime: DateTime(2024,2,7,22,6,19)),
+// WaterAcidityEntity(chlorine: 11, ph: 10.152677221235867, turbidity: 45, dateTime: DateTime(2024,4,18,14,53,21)),
+// WaterAcidityEntity(chlorine: 8, ph: 4.923160022014556, turbidity: 6, dateTime: DateTime(2024,3,13,3,17,8)),
+// WaterAcidityEntity(chlorine: 4, ph: 11.488001993812036, turbidity: 30, dateTime: DateTime(2024,2,20,11,0,13)),
+// WaterAcidityEntity(chlorine: 4, ph: 2.8426109320429243, turbidity: 14, dateTime: DateTime(2024,3,3,16,47,2)),
+// WaterAcidityEntity(chlorine: 9, ph: 4.250511274924766, turbidity: 40, dateTime: DateTime(2024,4,26,21,38,18)),
+// WaterAcidityEntity(chlorine: 14, ph: 6.218870625432333, turbidity: 33, dateTime: DateTime(2024,3,17,5,14,57)),
+// WaterAcidityEntity(chlorine: 16, ph: 4.62884651666133, turbidity: 21, dateTime: DateTime(2024,1,8,0,1,51)),
+// WaterAcidityEntity(chlorine: 15, ph: 7.131024101258792, turbidity: 48, dateTime: DateTime(2024,4,9,3,44,36)),
+// WaterAcidityEntity(chlorine: 14, ph: 8.88390012559617, turbidity: 47, dateTime: DateTime(2024,3,25,11,54,22)),
+// WaterAcidityEntity(chlorine: 2, ph: 6.086831581269574, turbidity: 16, dateTime: DateTime(2024,1,16,16,19,29)),
+// WaterAcidityEntity(chlorine: 4, ph: 3.272169760946976, turbidity: 10, dateTime: DateTime(2024,4,4,18,47,37)),
+// WaterAcidityEntity(chlorine: 0, ph: 6.561036725840609, turbidity: 22, dateTime: DateTime(2024,3,9,14,51,39)),
+// WaterAcidityEntity(chlorine: 7, ph: 13.555237279961547, turbidity: 36, dateTime: DateTime(2024,2,28,20,5,48)),
+// WaterAcidityEntity(chlorine: 8, ph: 3.2154537886701514, turbidity: 8, dateTime: DateTime(2024,2,12,9,20,4)),
+WaterAcidityEntity(chlorine: 19, ph: 5.805328677558336, turbidity: 40, dateTime: DateTime(2024,2,24,23,51,44))
+
+];
