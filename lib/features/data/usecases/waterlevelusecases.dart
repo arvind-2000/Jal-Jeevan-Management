@@ -7,7 +7,9 @@ import 'package:waterlevelmonitor/features/domain/entities/waterlevelentity.dart
 import '../../../core/const.dart';
 
 class UseCasesModel {
-  void getData(String url) {}
+  void getData(String url) {
+    
+  }
 
   WaterLevel convertValues(
       {required String name,
@@ -234,5 +236,22 @@ List<double> avg(List<WaterLevel> wat){
     return res;
   }
 
+  Future<int> changepumpSwitch(int value,WaterLevel waterLevel) async{
+    int res = 0;
 
+    
+    try{
+        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${waterLevel.elevation}&field7=$value');
+  
+        log(url.toString());
+        final response = await http.post(url);
+        res = response.statusCode;
+    
+        log('change pump switch: $res');
+    }catch(e){
+
+    }
+
+    return res;
+  }
 }

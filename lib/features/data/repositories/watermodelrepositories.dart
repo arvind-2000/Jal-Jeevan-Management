@@ -151,8 +151,12 @@ int response = 0;
       // print('okay in service');
       log('In service response');
       var data = jsonDecode(response.body) as Map<String, dynamic>;
-        log('in data field ${data['feeds'].length}');
-      d = data['channnel']['isActive'];    
+        // log('in data field ${data['feeds'].length}');
+        if(data.isNotEmpty){
+      d = data['channnel']['isActive'];
+          
+        }
+
         }
 } on Exception catch (e) {
     log("in client error");
@@ -162,7 +166,38 @@ int response = 0;
   return {d:res};
  
   }
+  
+  @override
+  Future<int> getAutoPumpStatus({required String url})  async{
+       int d = 2;
+     int res = 0;
 
+
+ try {
+
+  final response = await http.get(Uri.parse(url));
+      
+    print('in service response');
+    if (response.statusCode == 200) {
+
+      // print('okay in service');
+      log('In service response');
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+        log('in data field ${data['feeds'].length}');
+        if(data.isNotEmpty){
+      String x = data['feeds'][0]['field7'];    
+          d = int.tryParse(x)??2;
+        }
+
+        }
+} on Exception catch (e) {
+    log("in client error");
+    res = 4;
+}
+ 
+  return d;
+
+  }
 
 
 }

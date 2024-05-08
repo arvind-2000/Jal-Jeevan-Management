@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
+import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 
 
 
@@ -14,6 +15,7 @@ class NavBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectprov = Provider.of<PageSelectProvider>(context);
+    final prov = Provider.of<WaterLevelProvider>(context);
     return Container(
       padding:const EdgeInsets.symmetric(horizontal: 16),
         height: 70,
@@ -39,6 +41,34 @@ class NavBarPage extends StatelessWidget {
                   },
               
                   icon:FaIcon(FontAwesomeIcons.table,size: 12,color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,) ),
+                  SizedBox(width: 20,),
+                
+               Row(
+                 children: [
+                  Text(prov.isAutomatic?'Automatic':'Manual',style: TextStyle(fontSize: 14),),
+                  SizedBox(width: 10,),
+                   Switch(
+                          
+                            hoverColor: prov.isAutomatic?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
+                            activeColor: Theme.of(context).colorScheme.secondary,
+                            
+                            value: prov.isAutomatic, onChanged: (value){
+                              
+                             if(value){
+                                
+                                prov.changepumpSwitch(2,prov.waterlevellist.last);
+                             
+                                
+               
+                             } else{
+                                  prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last);
+                                     
+                             }
+                        
+                            // switchpump();
+                          }),
+                 ],
+               ),
                     //  SizedBox(width: 20,),
               // IconButton(
               //     onPressed: (){

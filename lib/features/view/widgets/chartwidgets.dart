@@ -167,7 +167,7 @@ class ChartWidget extends StatelessWidget {
                                     ),
                                     tooltipBehavior: TooltipBehavior(enable: true,
                                     builder: (data, point, series, pointIndex, seriesIndex) {
-                                      return Text('Date ${prov.monthly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.day}\n${data.level} $levelunit',style: TextStyle(fontSize: 12),);
+                                      return Text('Date ${prov.monthly(prov.allfixwaterlevellist,DateTime.now())[pointIndex].date.day}\n${data.level} $flowunit',style: TextStyle(fontSize: 12),);
                                     },
                                     color: Theme.of(context).colorScheme.primary,
                                     textStyle: TextStyle(color: Theme.of(context).colorScheme.surface)

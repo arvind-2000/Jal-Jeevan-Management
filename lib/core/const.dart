@@ -4,6 +4,7 @@ String appname = "Jal Jeevan";
 String servererror = "Issue with server connection";
 String interneterror = "No Internet connection";
 String changestatusapi = 'http://10.10.1.139:88/api/channel-data/change-active?id=216821&isactive=';
+String changepumpswitchapi = 'http://10.10.1.139:88/api/channel-data/update?api_key=A515BB3D88984436&field7';
 String updateapi = "http://10.10.1.139:88/api/channel-data/update?api_key=A515BB3D88984436";
 String latestapi = "http://10.10.1.139:88/api/channel-data/216821/latest-feeds?api_key=CFB2FF3DA4064968";
 String feedapi = "http://10.10.1.139:88/api/channel-data/216821/feeds?api_key=CFB2FF3DA4064968&dtfrom=2024-04-01&dtupto=${dateFormatforApi(DateTime.now())}";

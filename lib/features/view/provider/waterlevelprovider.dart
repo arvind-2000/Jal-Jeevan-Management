@@ -26,47 +26,64 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   bool isActive = false;
   int selecTimeSchedule = 0;
   int timeschedule = 5*60;
-
+  bool isAutomatic = false;
   void getDatass() async {
     isLoading = true;
     getLatestdata();
     getAlldata();
     changeData();
 
-    // checkConnection();
-    notifyListeners();
 
+    notifyListeners();
+    checkConnection();
     schedulePumptimer();
-    // scheduleAlltimer();
-    chechData();
+    scheduleAlltimer();
+
   }
 
 
 void chechData(){
-
   if(waterlevellist.isNotEmpty && allfixwaterlevellist.isNotEmpty && response == 1){
     checkdata = true;
-    isLoading = false;
+
+    notifyListeners();
   }else{
     
     checkdata = false;    
-
-  }
   notifyListeners();
 
+  }
+
 }
+
+
 
 
   void getLatestdata() async{
 
 
- await getWaterLevelLatest(url: latestapi).then((value){
+ await getWaterLevelLatest(url: latestapi).then((value) async{
 
   _waterlevellist = value.entries.first.key;
 
   log('in latest');
    log('$response  $isLoading');
+
+   await getAutoPumpStatus(url: latestapi).then((value) {
+  log('automatic $value' );
+    if(value==0 || value==1){
+        isAutomatic = false;
+        if(!isAutomatic){
+            isOnoff = value==1?true:false;
+            notifyListeners();
+        }
+    }else{
+      isAutomatic = true;
+    }
+    notifyListeners();
+});
   switcheschange();
+  
  });
 addData();
 await getStatus(url: latestapi).then((value){
@@ -107,6 +124,7 @@ void getAlldata() async{
     response = 1;
     checkConnection();
     changeData();
+    chechData();
     notifyListeners();
 
 }
@@ -120,26 +138,28 @@ void changeTimeSchedule(int value,int option){
 
 
 void checkConnection(){
-     isLoading = false;
-
-    
-    if(response != 1){
-      log('response $response');
-      cancelTimer();
-     
+    if(response>0){
+      isLoading = false;
     }
+    notifyListeners();
+    chechData();
+    // if(response != 1){
+    //   log('response $response');
+    //   cancelTimer();
+     
+    // }
 
 
 
 }
 
 
-void cancelTimer(){
-  if(_scheduler!=null){
-     _scheduler.cancel();
-  }
+// void cancelTimer(){
+//   if(_scheduler!=null){
+//      _scheduler.cancel();
+//   }
 
-}
+// }
 
 
 
@@ -164,10 +184,10 @@ void schedulePumptimer() async{
 
 
 void scheduleAlltimer() async{
-
+    getAlldata();
   notifyListeners();
 
-  _scheduler = Timer.periodic(const Duration(minutes: 10), (timer)  async{ 
+  _scheduler = Timer.periodic(const Duration(minutes: 1), (timer)  async{ 
     getAlldata();
     checkConnection();
 
@@ -189,6 +209,8 @@ void scheduleAlltimer() async{
   }
 
   void switcheschange(){
+    if(isAutomatic){
+
     if(_waterlevellist.last.elevation==0){
     
         pumpSwitch(false, _waterlevellist.last);
@@ -203,6 +225,9 @@ void scheduleAlltimer() async{
 
             isOnoff = true;
     }
+
+    }
+
     notifyListeners();
 
   }

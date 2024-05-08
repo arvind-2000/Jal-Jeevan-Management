@@ -21,7 +21,7 @@ class FilterPage extends StatelessWidget {
       child: CardStyle(child:
       Container(
         padding: EdgeInsets.all(16),
-        child: Expanded(child: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -33,24 +33,24 @@ class FilterPage extends StatelessWidget {
                 }, icon: FaIcon(FontAwesomeIcons.close,size: 12,))
               ],
             ),
-
-    SizedBox(height: 20,),
-
+        
+            SizedBox(height: 20,),
+        
               Text('Year'),
                   SizedBox(height: 10,),
                   GridView(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:3,
-              childAspectRatio: 2/0.8
-              
-              ),
-              children:List.generate(DateTime.now().year - 2023, (index) => Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: InkWell(
-                
+                                  shrinkWrap: true,
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:3,
+                                childAspectRatio: 2/0.8
+                                
+                                ),
+                                children:List.generate(DateTime.now().year - 2023, (index) => Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: InkWell(
+                                  
                   child: CardOptionBorder(title: '${2024+index}', isSelect: prov.currentdate.year==2024+index)),
-              ))
-              ),
+                                ))
+                                ),
               SizedBox(height: 20,),
               Row(
                 children: [
@@ -66,7 +66,7 @@ class FilterPage extends StatelessWidget {
                     },
                     child: Text('Days',style: TextStyle(color: prov.timerecord==1?Theme.of(context).colorScheme.secondary:null),)),
                          SizedBox(width: 10,),
-      
+              
                 ],
               ),
               SizedBox(height: 10,),
@@ -85,17 +85,17 @@ class FilterPage extends StatelessWidget {
                    
                       prov.changeTime(1, prov2.allfixwaterlevellist, e.date);
                     }
-
+              
                 },
                   child: CardOptionBorder(title:prov.timerecord==0?months[e.date.month-1]:'${e.date.day}', isSelect:prov.timerecord==1?prov.currentdate.month==e.date.month:false)),
               )).toList(),
               ),
               SizedBox(height: 20,),
-     
-
-
+             
+        
+        
           ],
-        )),
+        ),
       )  
     
     ));

@@ -39,9 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
-            child:!prov.checkdata
-                ? ErrorScreen()
-                : SizedBox(
+            child:prov.checkdata?
+                
+                SizedBox(
                     child: Row(
                       children: [
                         SizedBox(
@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                  )),
+                  ):ErrorScreen()),
       );
     });
   }

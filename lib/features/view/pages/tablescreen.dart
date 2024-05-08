@@ -24,153 +24,145 @@ class TableScreen extends StatelessWidget {
     final selecprov = Provider.of<PageSelectProvider>(context);
     prov.init(prov2.allfixwaterlevellist);
     
-    return Expanded(
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<screensize ?const FilterPage():CardStyle(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-               Padding(
-                    padding:EdgeInsets.all(16),
-                    child:Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Records",style: TextStyle(fontSize: 26),),
-                        MediaQuery.of(context).size.width>screensize?SizedBox():IconButton(onPressed: (){
-                              selecprov.changeFilter();
-
-                        }, icon: FaIcon(FontAwesomeIcons.filter,size: 12,))
-                      ],
-                    ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<screensize ?const FilterPage():CardStyle(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+             Padding(
+                  padding:EdgeInsets.all(16),
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Records",style: TextStyle(fontSize: 26),),
+                      MediaQuery.of(context).size.width>screensize?SizedBox():IconButton(onPressed: (){
+                            selecprov.changeFilter();
+    
+                      }, icon: FaIcon(FontAwesomeIcons.filter,size: 12,))
+                    ],
                   ),
-                  SizedBox(height:10),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: SingleChildScrollView(
-                        child: Expanded(
-                      
-                          child: Column(
-                            children: [ 
-                                      const Padding(
-                                        padding:EdgeInsets.all(8.0),
+                ),
+                SizedBox(height:10),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [ 
+                                  const Padding(
+                                    padding:EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                              Expanded(child: Text('Date')),
+                                              Expanded(child: Text('level')),
+                                              Expanded(child: Text('flow')),
+                                              Expanded(child: Text('totalf')),
+                                              Expanded(child: Text('temp')),
+                                       
+                                      ],
+                                    ),
+                                  ),
+                                    ListView(
+                                  shrinkWrap: true,
+                                    physics:const NeverScrollableScrollPhysics(),
+                                    children:prov.filterlist.map((e) => Container(
+                                    
+                                      padding: EdgeInsets.symmetric(vertical: 8),
+                                      child: CardStyle(child: Padding(
+                                        
+                                        
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                                  Expanded(child: Text('Date')),
-                                                  Expanded(child: Text('level')),
-                                                  Expanded(child: Text('flow')),
-                                                  Expanded(child: Text('totalf')),
-                                                  Expanded(child: Text('temp')),
+                                        
+                                            Expanded(child: Text(getDate(e.date))),
+                                          
+                                            Expanded(child: Text(e.level.toStringAsFixed(0))),
+                                            Expanded(child: Text(e.flow.toStringAsFixed(0))),
+                                            Expanded(child: Text(e.totalflow.toStringAsFixed(0))),
+                                            Expanded(child: Text(e.temp.toStringAsFixed(0))),
                                            
                                           ],
                                         ),
-                                      ),
-                                        ListView(
-                                      shrinkWrap: true,
-                                        physics:const NeverScrollableScrollPhysics(),
-                                        children:prov.filterlist.map((e) => Container(
-                                        
-                                          padding: EdgeInsets.symmetric(vertical: 8),
-                                          child: CardStyle(child: Padding(
-                                            
-                                            
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                            
-                                                Expanded(child: Text(getDate(e.date))),
-                                              
-                                                Expanded(child: Text(e.level.toStringAsFixed(0))),
-                                                Expanded(child: Text(e.flow.toStringAsFixed(0))),
-                                                Expanded(child: Text(e.totalflow.toStringAsFixed(0))),
-                                                Expanded(child: Text(e.temp.toStringAsFixed(0))),
-                                               
-                                              ],
-                                            ),
-                                          )),
-                                        )).toList(),
-                                                              )
-                            ],
-                          ),
-                        ),
+                                      )),
+                                    )).toList(),
+                                                          )
+                        ],
                       ),
                     ),
                   ),
-                  CardStyle(child: Container(
-                    height: 200,
-                    padding: EdgeInsets.all(16),
-                    child: Row(
-                  
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(prov.timerecord==0?'${prov.currentdate.year}':prov.timerecord==1?'${months[prov.currentdate.month-1]} ${prov.currentdate.year}':getDate(prov.currentdate),style: TextStyle(fontSize: 24),),
-                           
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Average'),
-                                  SizedBox(height: 20,),
-                                    MediaQuery.of(context).size.width<screensize?SizedBox(): Row(
+                ),
+                CardStyle(child: Container(
+                  height: 200,
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(prov.timerecord==0?'${prov.currentdate.year}':prov.timerecord==1?'${months[prov.currentdate.month-1]} ${prov.currentdate.year}':getDate(prov.currentdate),style: TextStyle(fontSize: 24),),
+                         
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Average'),
+                                SizedBox(height: 20,),
+                                  MediaQuery.of(context).size.width<screensize?SizedBox(): Row(
+                                
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Level',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avgslevel[0].toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 20),),
+                                      ],
+                                    ),
+                                    SizedBox(width: 20,),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avgslevel[1].toStringAsFixed(0)} $flowunit',style: TextStyle(fontSize: 20),),
+                                      ],
+                                    ),
+                                     SizedBox(width: 20,),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                        Text('${prov.avgslevel[2].toStringAsFixed(0)} $tempunit',style: TextStyle(fontSize: 20),),
+                                      ],
+                                    ),
+                                              
+                                              
                                   
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Level',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                          Text('${prov.avgslevel[0].toStringAsFixed(0)} $levelunit',style: TextStyle(fontSize: 20),),
-                                        ],
-                                      ),
-                                      SizedBox(width: 20,),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                          Text('${prov.avgslevel[1].toStringAsFixed(0)} $flowunit',style: TextStyle(fontSize: 20),),
-                                        ],
-                                      ),
-                                       SizedBox(width: 20,),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                          Text('${prov.avgslevel[2].toStringAsFixed(0)} $tempunit',style: TextStyle(fontSize: 20),),
-                                        ],
-                                      ),
-                                                
-                                                
-                                    
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-
-                         Container(
-                            height: 200,
-                            width: 200,
-                            child: RadialBarSmall(value: prov.avgslevel))
-                      ],
-                    )))
-              
-                ],
-              ),
+                      ),
+    
+                       Container(
+                          height: 200,
+                          width: 200,
+                          child: RadialBarSmall(value: prov.avgslevel))
+                    ],
+                  )))
+            
+              ],
             ),
           ),
-          MediaQuery.of(context).size.width<screensize?SizedBox():Expanded(
-            
-           
-            child: FilterPage())
-        ],
-      ),
+        ),
+        MediaQuery.of(context).size.width<screensize?SizedBox():Expanded(child: FilterPage())
+      ],
     );
   }
 }

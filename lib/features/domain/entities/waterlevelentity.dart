@@ -8,6 +8,7 @@ int elevation;
 double totalflow;
 DateTime date;
 
+
 WaterLevel({
   required this.name,
   required this.level,
@@ -15,7 +16,9 @@ WaterLevel({
   required this.temp,
   required this.totalflow,
   required this.date,
-  required this.elevation
+  required this.elevation,
+
+
 });
 
 
