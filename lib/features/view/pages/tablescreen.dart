@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,7 +27,7 @@ class TableScreen extends StatelessWidget {
       children: [
         Expanded(
           flex: 2,
-          child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<screensize ?const FilterPage():CardStyle(
+          child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<1200 ?const FilterPage():CardStyle(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -38,9 +37,9 @@ class TableScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Records",style: TextStyle(fontSize: 26),),
-                      MediaQuery.of(context).size.width>screensize?SizedBox():IconButton(onPressed: (){
+                      MediaQuery.of(context).size.width>1200?SizedBox():IconButton(onPressed: (){
                             selecprov.changeFilter();
-    
+                
                       }, icon: FaIcon(FontAwesomeIcons.filter,size: 12,))
                     ],
                   ),
@@ -50,47 +49,50 @@ class TableScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: [ 
-                                  const Padding(
-                                    padding:EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                              Expanded(child: Text('Date')),
-                                              Expanded(child: Text('level')),
-                                              Expanded(child: Text('flow')),
-                                              Expanded(child: Text('totalf')),
-                                              Expanded(child: Text('temp')),
-                                       
-                                      ],
+                      child: Container(
+                    
+                        child: Column(
+                          children: [ 
+                                    const Padding(
+                                      padding:EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                                Expanded(child: Text('Date',style: TextStyle(fontSize: 14))),
+                                                Expanded(child: Text('level',style: TextStyle(fontSize: 14))),
+                                                Expanded(child: Text('flow',style: TextStyle(fontSize: 14))),
+                                                Expanded(child: Text('totalf',style: TextStyle(fontSize: 14))),
+                                                Expanded(child: Text('temp',style: TextStyle(fontSize: 15))),
+                                         
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                    ListView(
-                                  shrinkWrap: true,
-                                    physics:const NeverScrollableScrollPhysics(),
-                                    children:prov.filterlist.map((e) => Container(
-                                    
-                                      padding: EdgeInsets.symmetric(vertical: 8),
-                                      child: CardStyle(child: Padding(
-                                        
-                                        
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                        
-                                            Expanded(child: Text(getDate(e.date))),
+                                      ListView(
+                                    shrinkWrap: true,
+                                      physics:const NeverScrollableScrollPhysics(),
+                                      children:prov.filterlist.map((e) => Container(
+                                      
+                                        padding: EdgeInsets.symmetric(vertical: 8),
+                                        child: CardStyle(child: Padding(
                                           
-                                            Expanded(child: Text(e.level.toStringAsFixed(0))),
-                                            Expanded(child: Text(e.flow.toStringAsFixed(0))),
-                                            Expanded(child: Text(e.totalflow.toStringAsFixed(0))),
-                                            Expanded(child: Text(e.temp.toStringAsFixed(0))),
-                                           
-                                          ],
-                                        ),
-                                      )),
-                                    )).toList(),
-                                                          )
-                        ],
+                                          
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                          
+                                              Expanded(child: Text(getDate(e.date),style: TextStyle(fontSize: 12),)),
+                                            
+                                              Expanded(child: Text(e.level.toStringAsFixed(0),style: TextStyle(fontSize: 12))),
+                                              Expanded(child: Text(e.flow.toStringAsFixed(0),style: TextStyle(fontSize: 12))),
+                                              Expanded(child: Text(e.totalflow.toStringAsFixed(0),style: TextStyle(fontSize: 12))),
+                                              Expanded(child: Text(e.temp.toStringAsFixed(0),style: TextStyle(fontSize: 12))),
+                                             
+                                            ],
+                                          ),
+                                        )),
+                                      )).toList(),
+                                                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -149,7 +151,7 @@ class TableScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-    
+                
                        Container(
                           height: 200,
                           width: 200,
@@ -161,7 +163,7 @@ class TableScreen extends StatelessWidget {
             ),
           ),
         ),
-        MediaQuery.of(context).size.width<screensize?SizedBox():Expanded(child: FilterPage())
+        MediaQuery.of(context).size.width<1200?SizedBox():Expanded(child: FilterPage())
       ],
     );
   }

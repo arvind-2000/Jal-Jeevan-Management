@@ -43,6 +43,8 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
 
 
 void chechData(){
+  if(!checkdata){
+
   if(waterlevellist.isNotEmpty && allfixwaterlevellist.isNotEmpty && response == 1){
     checkdata = true;
 
@@ -53,6 +55,8 @@ void chechData(){
   notifyListeners();
 
   }
+  }
+
 
 }
 
@@ -60,51 +64,50 @@ void chechData(){
 
 
   void getLatestdata() async{
+    Map<List<WaterLevel>,int> value = {};
+    int pumpstat = 0;
+  value = await getWaterLevelLatest(url: latestapi);
 
-
- await getWaterLevelLatest(url: latestapi).then((value) async{
-
+  if(value.entries.first.value==1){
+    if(value.entries.first.key.isNotEmpty){
   _waterlevellist = value.entries.first.key;
+    }
+  }
 
-  log('in latest');
-   log('$response  $isLoading');
+//   log('in latest');
+  
+//   log('in latest ${_waterlevellist.length}');
+//    log('$response  $isLoading');
+//  log('in latest data  $checkdata');
 
-   await getAutoPumpStatus(url: latestapi).then((value) {
-  log('automatic $value' );
-    if(value==0 || value==1){
+
+  pumpstat =  await getAutoPumpStatus(url: latestapi);
+  
+    if(pumpstat==0 || pumpstat==1){
         isAutomatic = false;
         if(!isAutomatic){
-            isOnoff = value==1?true:false;
+            isOnoff = pumpstat==1?true:false;
             notifyListeners();
         }
     }else{
       isAutomatic = true;
     }
     notifyListeners();
-});
-  switcheschange();
-  
- });
-addData();
+
+
+
 await getStatus(url: latestapi).then((value){
   isActive = value.entries.last.key;
   notifyListeners();
-  switcheschange();
+
 });
 
-
+  switcheschange();
 
   }
 
 
-void addData(){
-  DateTime d = _allfix.last.date;
- if(d.compareTo(_waterlevellist.last.date)>=0){
- _allfix.last == _waterlevellist.last;
- }
 
-  notifyListeners();
-}
 
 void getAlldata() async{
 
@@ -170,10 +173,6 @@ void schedulePumptimer() async{
   _scheduler = Timer.periodic(const Duration(seconds: 1), (timer)  async{ 
     getLatestdata();
     checkConnection();
- if(_waterlevellist.last.elevation==1){
-      // checkthreshold();
-    }
-  // isOnoff = await pump();
 
     notifyListeners();
    

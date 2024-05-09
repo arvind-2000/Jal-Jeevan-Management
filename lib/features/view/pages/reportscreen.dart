@@ -40,195 +40,275 @@ class _ReportScreenState extends State<ReportScreen> {
         //  const Text('Water Flow'),
         //  const SizedBox(height: 10,),
             Expanded(
-              child: Row(
+              child:MediaQuery.of(context).size.width>900?Row(
                 children: [
-                CardStyleII(child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
+                TodayReport(prov: prov),
+                SizedBox(width: 20,),
+                 ThisMonth(filterprov: filterprov, prov: prov, selecprov: selecprov),
+                 SizedBox(width: 20,),
+            ThisYear(filterprov: filterprov, prov: prov, selecprov: selecprov),
+                ],
+              ): selecprov.reportpageswap==0?TodayReport(prov: prov): selecprov.reportpageswap==1? ThisMonth(filterprov: filterprov, prov: prov, selecprov: selecprov): ThisYear(filterprov: filterprov, prov: prov, selecprov: selecprov),
+            )
+          
+        ],
+      ),
+    ));
+  }
+}
+
+class TodayReport extends StatelessWidget {
+  const TodayReport({
+    super.key,
+    required this.prov,
+  });
+
+  final WaterLevelProvider prov;
+
+  @override
+  Widget build(BuildContext context) {
+    final selecprov = Provider.of<PageSelectProvider>(context);
+    return CardStyleII(child: Padding(
+      padding: const EdgeInsets.all(16),
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                       Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Text('Today',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+
+                            MediaQuery.of(context).size.width<900?IconButton(onPressed: (){
+                                      selecprov.changereportpage();
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                       ],
+                     ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Text('Total Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                      SizedBox(height: 10,),
+                  Text('${prov.waterlevellist.last.totalflow.toStringAsFixed(2)} $flowunit',style:const TextStyle(fontSize: 20),),
+                 
+                ],
+              )
+            ],
+          ),
+                 
+          
+    
+    
+        ],
+      ),
+    ));
+  }
+}
+
+class ThisYear extends StatelessWidget {
+  const ThisYear({
+    super.key,
+    required this.filterprov,
+    required this.prov,
+    required this.selecprov,
+  });
+
+  final Filterprovider filterprov;
+  final WaterLevelProvider prov;
+  final PageSelectProvider selecprov;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+           child: InkWell(
+            onTap: (){
+                filterprov.changeTime(0, prov.allfixwaterlevellist, DateTime.now());
+              selecprov.changePage(1);
+            },
+             child: CardStyle(child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    left: MediaQuery.of(context).size.width<1100?0:null,
+                    child: Container(
+                      height: 120,
+                      width: 120,
+                      child: ChartBars(value: prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now())),),
+                    ),
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Today',style: TextStyle(),),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                                     Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Text('This Year',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+
+                            MediaQuery.of(context).size.width<900?IconButton(onPressed: (){
+                                      selecprov.changereportpage();
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                       ],
+                     ),
+                             MediaQuery.of(context).size.width<1100?SizedBox():Row(
+                     
                             children: [
-                            Text('Total Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                                   SizedBox(height: 10,),
-                              Text('${prov.waterlevellist.last.totalflow.toStringAsFixed(2)} $flowunit',style:const TextStyle(fontSize: 20),),
-                             
+                                  Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                 
+                                ],
+                              ),
+                              SizedBox(width: 30,),
+                                 Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                      SizedBox(height: 10,),
+                                 Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                 
+                                ],
+                              ),
+                              SizedBox(width: 30,),
+                                 Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                      SizedBox(height: 10,),
+                                  Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                 
+                                ],
+                              ),
                             ],
                           )
                         ],
                       ),
-             
+                              
                       
-                
-                
+                                 
+                                 
                     ],
                   ),
-                )),
-                SizedBox(width: 20,),
-                 Expanded(
-                   child: InkWell(
-                    onTap: (){
-                      filterprov.changeTime(1, prov.allfixwaterlevellist, DateTime.now());
-                      selecprov.changePage(1);
-                    },
-                     child: CardStyle(child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Stack(
-                        children: [
-                            Positioned(
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: Container(
-                              height: 120,
-                              width: 120,
-                              child: RadialBarSmall(value: prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now())),),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('This Month',style: TextStyle(),),
-                                  MediaQuery.of(context).size.width<screensize?SizedBox():Row(
-                             
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                               SizedBox(height: 10,),
-                                          Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                      SizedBox(width: 30,),
-                                         Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                               SizedBox(height: 10,),
-                                          Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                      SizedBox(width: 30,),
-                                         Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                               SizedBox(height: 10,),
-                                          Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                                      
-                              
-                                         
-                                         
-                            ],
-                          ),
-                        ],
-                      ),
-                                     )),
-                   ),
-                 ),
-                 SizedBox(width: 20,),
-            Expanded(
-                   child: InkWell(
-                    onTap: (){
-                        filterprov.changeTime(0, prov.allfixwaterlevellist, DateTime.now());
-                      selecprov.changePage(1);
-                    },
-                     child: CardStyle(child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: Container(
-                              height: 120,
-                              width: 120,
-                              child: ChartBars(value: prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now())),),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('This Year',style: TextStyle(),),
-                                     MediaQuery.of(context).size.width<screensize?SizedBox():Row(
-                             
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                          SizedBox(height: 10,),
-                                          Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                      SizedBox(width: 30,),
-                                         Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                              SizedBox(height: 10,),
-                                         Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                      SizedBox(width: 30,),
-                                         Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
-                                              SizedBox(height: 10,),
-                                          Text('${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                         
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                                      
-                              
-                                         
-                                         
-                            ],
-                          ),
-                        ],
-                      ),
-                                     )),
-                   ),
-                 ),
                 ],
               ),
-            )
-          
-        ],
+                             )),
+           ),
+         );
+  }
+}
+
+class ThisMonth extends StatelessWidget {
+  const ThisMonth({
+    super.key,
+    required this.filterprov,
+    required this.prov,
+    required this.selecprov,
+  });
+
+  final Filterprovider filterprov;
+  final WaterLevelProvider prov;
+  final PageSelectProvider selecprov;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+       onTap: (){
+         filterprov.changeTime(1, prov.allfixwaterlevellist, DateTime.now());
+         selecprov.changePage(1);
+       },
+        child: CardStyle(child: Padding(
+         padding: const EdgeInsets.all(16),
+         child: Stack(
+           children: [
+               Positioned(
+               right: 0,
+               top: 0,
+               bottom: 0,
+               left: MediaQuery.of(context).size.width<1100?0:null,
+               child: Container(
+                 height: 120,
+                 width: 120,
+                 child: RadialBarSmall(value: prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now())),),
+               ),
+             ),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Column(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   crossAxisAlignment:CrossAxisAlignment.start,
+                   children: [
+                           Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Text('This Month',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+
+                            MediaQuery.of(context).size.width<900?IconButton(onPressed: (){
+                                      selecprov.changereportpage();
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                       ],
+                     ),
+                     MediaQuery.of(context).size.width<1100?SizedBox():Row(
+                
+                       children: [
+                         Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                           Text('Avg Lev',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                  SizedBox(height: 10,),
+                             Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].toStringAsFixed(0)} $levelunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            
+                           ],
+                         ),
+                         SizedBox(width: 30,),
+                            Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                           Text('Avg Flow',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                  SizedBox(height: 10,),
+                             Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].toStringAsFixed(0)} $flowunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            
+                           ],
+                         ),
+                         SizedBox(width: 30,),
+                            Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                           Text('Avg Temp',style: TextStyle(fontSize: 14,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
+                                  SizedBox(height: 10,),
+                             Text('${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].toStringAsFixed(0)} $tempunit',style:const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            
+                           ],
+                         ),
+                       ],
+                     )
+                   ],
+                 ),
+                         
+                 
+                            
+                            
+               ],
+             ),
+           ],
+         ),
+                        )),
       ),
-    ));
+    );
   }
 }
 

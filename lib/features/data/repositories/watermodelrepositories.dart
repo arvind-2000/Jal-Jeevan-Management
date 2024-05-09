@@ -149,12 +149,12 @@ int response = 0;
     if (response.statusCode == 200) {
 
       // print('okay in service');
-      log('In service response');
+      log('In service response active');
       var data = jsonDecode(response.body) as Map<String, dynamic>;
         // log('in data field ${data['feeds'].length}');
         if(data.isNotEmpty){
-      d = data['channnel']['isActive'];
-          
+      d =data['channel']['isActive'];
+       log('in active $d');
         }
 
         }
@@ -193,6 +193,7 @@ int response = 0;
 } on Exception catch (e) {
     log("in client error");
     res = 4;
+      return d;
 }
  
   return d;

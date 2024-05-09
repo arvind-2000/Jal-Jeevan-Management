@@ -129,7 +129,6 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
               ),
                     
               Expanded(
-                flex: 1,
                 child: SizedBox(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

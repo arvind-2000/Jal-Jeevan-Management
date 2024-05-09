@@ -28,7 +28,7 @@ class FilterPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                 Text('Filter'),
-                MediaQuery.of(context).size.width>screensize?SizedBox():IconButton(onPressed: (){
+                MediaQuery.of(context).size.width>1200?SizedBox():IconButton(onPressed: (){
                   selecprov.changeFilter();
                 }, icon: FaIcon(FontAwesomeIcons.close,size: 12,))
               ],
