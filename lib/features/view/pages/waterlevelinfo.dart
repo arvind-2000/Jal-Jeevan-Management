@@ -63,7 +63,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                 duration: const Duration(milliseconds: 500),
                 // height: prov.isOnoff?160:150,
               padding:const EdgeInsets.all(16),
-              color:prov.isOnoff?Colors.green[700]:Theme.of(context).colorScheme.secondary,
+              color:prov.isOnoff?Colors.green[700]:Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               
               child: Column(
                 children: [
@@ -78,16 +78,55 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                   
                         ],
                       ),
-                     prov.isAutomatic?SizedBox(): Switch(
-                  
+                    Switch(
+
+                        activeTrackColor: Colors.white,
+                        activeColor: Theme.of(context).colorScheme.secondary,
+                          inactiveThumbColor: Colors.grey.shade500,
+                        inactiveTrackColor: Colors.grey.shade300,
                         hoverColor: prov.isOnoff?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
-                        value: prov.isOnoff, onChanged: (value){
+                      
+                        value: prov.isOnoff, onChanged:prov.isAutomatic?null:(value){
                         prov.switches(value);
                         prov.changepumpSwitch(value?1:0,prov.waterlevellist.last);
                         switchpump();
                       }),
                     ],
                   ),
+
+                   Row(
+                     children: [
+                      Text(prov.isAutomatic?'Automatic':'Manual',style: TextStyle(fontSize: 14),),
+                      const SizedBox(width: 5,),
+                       SizedBox(
+                        height: 50,
+                        width: 50,
+                         child: Switch(
+                                  
+                                  hoverColor: prov.isAutomatic?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
+                                  activeTrackColor: Colors.white,
+                                  activeColor: Theme.of(context).colorScheme.secondary,
+                                  inactiveThumbColor: Colors.green,
+                                  inactiveTrackColor: Colors.grey.shade300,
+                                  
+                                  value: prov.isAutomatic, onChanged: (value){
+                                    
+                                   if(value){
+                                      
+                                      prov.changepumpSwitch(2,prov.waterlevellist.last);
+                                   
+                                      
+                                            
+                                   } else{
+                                        prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last);
+                                           
+                                   }
+                              
+                                  // switchpump();
+                                }),
+                       ),
+                     ],
+                   ),
                   // const SizedBox(height: 10,),
                   // !prov.isOnoff?FadeAnimation(
                   //   child: Row(

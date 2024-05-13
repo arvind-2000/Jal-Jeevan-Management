@@ -30,51 +30,56 @@ class NavBarPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment:  MainAxisAlignment.end,
                     children: [
-                   MediaQuery.of(context).size.width<screensize?SizedBox():IconButton(
+                   MediaQuery.of(context).size.width<screensize?const SizedBox():IconButton(
                       onPressed: (){
                         selectprov.changePage(0);
                       },
                   
                       icon:FaIcon(FontAwesomeIcons.house,size: 12,color: selectprov.pageSelect==0?Theme.of(context).colorScheme.secondary:null,) ),
                       SizedBox(width: 20,),
-                    MediaQuery.of(context).size.width<screensize?SizedBox():IconButton(
+                    MediaQuery.of(context).size.width<screensize?const SizedBox():IconButton(
                       onPressed: (){
                         selectprov.changePage(1);
                       },
                   
                       icon:FaIcon(FontAwesomeIcons.table,size: 12,color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,) ),
-                      SizedBox(width: 20,),
-                    
-                   Row(
-                     children: [
-                      Text(prov.isAutomatic?'Automatic':'Manual',style: TextStyle(fontSize: 14),),
-                      const SizedBox(width: 5,),
-                       SizedBox(
-                        height: 50,
-                        width: 50,
-                         child: Switch(
+                      const SizedBox(width: 20,),
+                     MediaQuery.of(context).size.width<screensize?const SizedBox():IconButton(
+                      onPressed: (){
+                        selectprov.changePage(2);
+                      },
+                  
+                      icon:FaIcon(FontAwesomeIcons.gear,size: 12,color: selectprov.pageSelect==2?Theme.of(context).colorScheme.secondary:null,) ),
+                  //  Row(
+                  //    children: [
+                  //     Text(prov.isAutomatic?'Automatic':'Manual',style: TextStyle(fontSize: 14),),
+                  //     const SizedBox(width: 5,),
+                  //      SizedBox(
+                  //       height: 50,
+                  //       width: 50,
+                  //        child: Switch(
                                   
-                                  hoverColor: prov.isAutomatic?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
-                                  activeColor: Theme.of(context).colorScheme.secondary,
+                  //                 hoverColor: prov.isAutomatic?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
+                  //                 activeColor: Theme.of(context).colorScheme.secondary,
                                   
-                                  value: prov.isAutomatic, onChanged: (value){
+                  //                 value: prov.isAutomatic, onChanged: (value){
                                     
-                                   if(value){
+                  //                  if(value){
                                       
-                                      prov.changepumpSwitch(2,prov.waterlevellist.last);
+                  //                     prov.changepumpSwitch(2,prov.waterlevellist.last);
                                    
                                       
                                             
-                                   } else{
-                                        prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last);
+                  //                  } else{
+                  //                       prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last);
                                            
-                                   }
+                  //                  }
                               
-                                  // switchpump();
-                                }),
-                       ),
-                     ],
-                   ),
+                  //                 // switchpump();
+                  //               }),
+                  //      ),
+                  //    ],
+                  //  ),
                         //  SizedBox(width: 20,),
                   // IconButton(
                   //     onPressed: (){
@@ -114,44 +119,44 @@ class NavBarPage extends StatelessWidget {
               ],
             ),
 
-          MediaQuery.of(context).size.width>screensize?SizedBox():Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment:  MainAxisAlignment.center,
-                      children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          onPressed: (){
-                            selectprov.changePage(0);
-                          },
+          // MediaQuery.of(context).size.width>screensize?SizedBox():Expanded(
+          //         child: Padding(
+          //           padding: const EdgeInsets.all(8.0),
+          //           child: Row(
+          //             mainAxisAlignment:  MainAxisAlignment.center,
+          //             children: [
+          //             Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: IconButton(
+          //                 onPressed: (){
+          //                   selectprov.changePage(0);
+          //                 },
                                             
-                          icon:FaIcon(FontAwesomeIcons.house,size: 12,color: selectprov.pageSelect==0?Theme.of(context).colorScheme.secondary:null,) ),
-                      ),
-                        SizedBox(width: 20,),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          onPressed: (){
-                            selectprov.changePage(1);
-                          },
+          //                 icon:FaIcon(FontAwesomeIcons.house,size: 12,color: selectprov.pageSelect==0?Theme.of(context).colorScheme.secondary:null,) ),
+          //             ),
+          //               SizedBox(width: 20,),
+          //             Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: IconButton(
+          //                 onPressed: (){
+          //                   selectprov.changePage(1);
+          //                 },
                                             
-                          icon:FaIcon(FontAwesomeIcons.table,size: 12,color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,) ),
-                      ),
-                        SizedBox(width: 20,),
+          //                 icon:FaIcon(FontAwesomeIcons.table,size: 12,color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,) ),
+          //             ),
+          //               SizedBox(width: 20,),
                       
                                   
-                          //  SizedBox(width: 20,),
-                    // IconButton(
-                    //     onPressed: (){
-                    //      selectprov.changePage(2);
-                    //     },
+          //                 //  SizedBox(width: 20,),
+          //           // IconButton(
+          //           //     onPressed: (){
+          //           //      selectprov.changePage(2);
+          //           //     },
                     
-                    //     icon:FaIcon(FontAwesomeIcons.lineChart,size: 12,color: selectprov.pageSelect==2?Theme.of(context).colorScheme.secondary:null,) ),
-                    ],),
-                  ),
-                ),
+          //           //     icon:FaIcon(FontAwesomeIcons.lineChart,size: 12,color: selectprov.pageSelect==2?Theme.of(context).colorScheme.secondary:null,) ),
+          //           ],),
+          //         ),
+          //       ),
           ],
         ),
     );

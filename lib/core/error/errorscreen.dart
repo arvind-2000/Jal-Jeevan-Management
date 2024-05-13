@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/const.dart';
@@ -11,8 +13,9 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
+    log(' in error data : ${prov.response}');
     return Center(
-      child:prov.isLoading?CircularProgressIndicator(
+      child:prov.response==0 || prov.response == 1 ?CircularProgressIndicator(
 
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ) :CardStyle(

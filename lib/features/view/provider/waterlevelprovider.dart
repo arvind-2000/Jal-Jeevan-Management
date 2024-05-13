@@ -15,6 +15,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   List<WaterLevel> get waterlevellist => _waterlevellist;
   List<WaterLevel> get allfixwaterlevellist => _allfix;
   bool checkdata = false;
+  bool isconnected = false;
   dynamic _scheduler;
 
   bool isLoading = false;
@@ -27,7 +28,9 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   int selecTimeSchedule = 0;
   int timeschedule = 5*60;
   bool isAutomatic = false;
+  int seconds = 10;
   void getDatass() async {
+    response = 0;  
     isLoading = true;
     getLatestdata();
     getAlldata();
@@ -37,7 +40,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
     notifyListeners();
     checkConnection();
     schedulePumptimer();
-    scheduleAlltimer();
+    // scheduleAlltimer();
 
   }
 
@@ -47,7 +50,7 @@ void chechData(){
 
   if(waterlevellist.isNotEmpty && allfixwaterlevellist.isNotEmpty && response == 1){
     checkdata = true;
-
+    
     notifyListeners();
   }else{
     
@@ -55,6 +58,9 @@ void chechData(){
   notifyListeners();
 
   }
+
+  isLoading = false;
+  notifyListeners();
   }
 
 
@@ -67,11 +73,14 @@ void chechData(){
     Map<List<WaterLevel>,int> value = {};
     int pumpstat = 0;
   value = await getWaterLevelLatest(url: latestapi);
-
+  response = value.entries.first.value;
   if(value.entries.first.value==1){
+    isconnected = true;
     if(value.entries.first.key.isNotEmpty){
   _waterlevellist = value.entries.first.key;
     }
+  }else{
+    isconnected = false;
   }
 
 //   log('in latest');
@@ -85,7 +94,9 @@ void chechData(){
   
     if(pumpstat==0 || pumpstat==1){
         isAutomatic = false;
+
         if(!isAutomatic){
+
             isOnoff = pumpstat==1?true:false;
             notifyListeners();
         }
@@ -124,7 +135,7 @@ void getAlldata() async{
 //     log('$response  $isLoading');
 //   });
     _allfix = waterleveldummy;
-    response = 1;
+    // response = 1;
     checkConnection();
     changeData();
     chechData();
@@ -141,10 +152,11 @@ void changeTimeSchedule(int value,int option){
 
 
 void checkConnection(){
-    if(response>0){
-      isLoading = false;
-    }
-    notifyListeners();
+  
+    // if(response>0){
+    //   isLoading = false;
+    // }
+    // notifyListeners();
     chechData();
     // if(response != 1){
     //   log('response $response');
@@ -168,14 +180,15 @@ void checkConnection(){
 
 void schedulePumptimer() async{
   // isOnoff = await pump();
-  notifyListeners();
-
-  _scheduler = Timer.periodic(const Duration(seconds: 1), (timer)  async{ 
+  _scheduler = Timer.periodic(Duration(seconds: seconds), (timer)  async{ 
+    if(response == 1){
     getLatestdata();
     checkConnection();
 
     notifyListeners();
-   
+    }
+
+
 
   });
 }
@@ -187,10 +200,14 @@ void scheduleAlltimer() async{
   notifyListeners();
 
   _scheduler = Timer.periodic(const Duration(minutes: 1), (timer)  async{ 
+    if(response == 1){
     getAlldata();
+    
     checkConnection();
 
     notifyListeners();
+    }
+
 
   });
 }
@@ -208,6 +225,8 @@ void scheduleAlltimer() async{
   }
 
   void switcheschange(){
+    if(isconnected){
+
     if(isAutomatic){
 
     if(_waterlevellist.last.elevation==0){
@@ -226,6 +245,11 @@ void scheduleAlltimer() async{
     }
 
     }
+    //for getting data after each switch change might not needed in future
+    getLatestdata();
+
+    }
+
 
     notifyListeners();
 
@@ -286,6 +310,21 @@ void starttimer(){
 
 }
   
+void timerseconds(bool plus){
+  if(plus){
+      seconds++;
+  }else{
+    if(seconds>1){
+      seconds--;
+    }else{
+      seconds = 1;
+    }
+  }
+  notifyListeners();
+
+}
+
+
 
   
 }

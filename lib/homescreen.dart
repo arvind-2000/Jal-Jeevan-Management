@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
 import 'package:waterlevelmonitor/core/const.dart';
@@ -39,6 +39,77 @@ class _HomeScreenState extends State<HomeScreen> {
       double size = MediaQuery.of(context).size.width;
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: size<screensize? AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text(appname,style: const TextStyle(fontSize: 24),),
+          centerTitle: true,
+        ):null,
+        drawer:size<screensize? Drawer(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 100,),
+                 InkWell(
+                  onTap: (){
+                         selectprov.changePage(0);
+                  },
+                   child: Container(
+                      padding: EdgeInsets.all(16),
+                     child: Row(
+                       children: [
+                     
+                        
+                              FaIcon(FontAwesomeIcons.house,size: 12,color: selectprov.pageSelect==0?Theme.of(context).colorScheme.secondary:null,) ,
+                              SizedBox(width: 10,),
+                              Text('Home',style: TextStyle(color: selectprov.pageSelect==0?Theme.of(context).colorScheme.secondary:null,),)
+                     
+                       ],
+                     ),
+                   ),
+                 ),
+                      SizedBox(width: 20,),
+                InkWell(
+                  onTap: (){
+                         selectprov.changePage(1);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                     
+                          
+                         FaIcon(FontAwesomeIcons.table,size: 12,color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,) ,
+                       SizedBox(width: 10,),
+                              Text('Reports',style: TextStyle(color: selectprov.pageSelect==1?Theme.of(context).colorScheme.secondary:null,),)
+                      
+                      ],
+                    ),
+                  ),
+                ),
+                      const SizedBox(width: 20,),
+                       InkWell(
+                  onTap: (){
+                         selectprov.changePage(2);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                     
+                          
+                         FaIcon(FontAwesomeIcons.gear,size: 12,color: selectprov.pageSelect==2?Theme.of(context).colorScheme.secondary:null,) ,
+                       SizedBox(width: 10,),
+                              Text('Settings',style: TextStyle(color: selectprov.pageSelect==2?Theme.of(context).colorScheme.secondary:null,),)
+                      
+                      ],
+                    ),
+                  ),
+                ),
+                      const SizedBox(width: 20,),
+            ],
+          ),
+        ):null,
         body: SafeArea(
             child:prov.checkdata?
                 
@@ -51,101 +122,108 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Column(
                             children: [
-                              NavBarPage(),
+                             size>screensize?const NavBarPage():const SizedBox(),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: size > screensize
-                                      ? Row(
-                                          children: [
-                                          WaterLevelInfo(),
-                                            const SizedBox(
-                                              width: 20,
+                                      ? SingleChildScrollView(
+
+                                        physics:const BouncingScrollPhysics(),
+                                        child:SizedBox(
+                                          height:MediaQuery.of(context).size.height<500? 600:670,
+                                          child: Row(
+                                              children: [
+                                              const WaterLevelInfo(),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Expanded(
+                                                    child: SizedBox(
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  child: selectprov.pageSelect == 0
+                                                      ? FadeAnimation(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                height: 50,
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            8),
+                                                                child:
+                                                                    AnimatedTextKit(
+                                                                  isRepeatingAnimation:
+                                                                      true,
+                                                                  repeatForever:
+                                                                      true,
+                                                                  animatedTexts: [
+                                                                    FadeAnimatedText(
+                                                                        'Today                Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit                flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit                temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
+                                                                        // alignment:
+                                                                        //     Alignment
+                                                                        //         .topLeft,
+                                                                        textStyle:
+                                                                            TextStyle(
+                                                                                fontSize:
+                                                                                    14),
+                                                                        duration: Duration(
+                                                                            seconds:
+                                                                                4)),
+                                                                    FadeAnimatedText(
+                                                                      'This Month                Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                                      //  alignment: Alignment.topLeft,
+                                                                      duration:
+                                                                          Duration(
+                                                                              seconds:
+                                                                                  4),
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                              fontSize:
+                                                                                  14),
+                                                                    ),
+                                                                    FadeAnimatedText(
+                                                                      'This Year                Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                                      // alignment:
+                                                                      //     Alignment
+                                                                      //         .topLeft,
+                                                                      duration:
+                                                                          Duration(
+                                                                              seconds:
+                                                                                  4),
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                              fontSize:
+                                                                                  14),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                  flex: 4,
+                                                                  child:
+                                                                      GraphScreen()),
+                                                              SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              Expanded(
+                                                                  flex: 2,
+                                                                  child:
+                                                                      ReportScreen())
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : const FadeAnimation(
+                                                          child: TableScreen()),
+                                                )),
+                                              ],
                                             ),
-                                            Expanded(
-                                                child: SizedBox(
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              child: selectprov.pageSelect == 0
-                                                  ? FadeAnimation(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            height: 50,
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        8),
-                                                            child:
-                                                                AnimatedTextKit(
-                                                              isRepeatingAnimation:
-                                                                  true,
-                                                              repeatForever:
-                                                                  true,
-                                                              animatedTexts: [
-                                                                FadeAnimatedText(
-                                                                    'Today                Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit                flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit                temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
-                                                                    // alignment:
-                                                                    //     Alignment
-                                                                    //         .topLeft,
-                                                                    textStyle:
-                                                                        TextStyle(
-                                                                            fontSize:
-                                                                                14),
-                                                                    duration: Duration(
-                                                                        seconds:
-                                                                            4)),
-                                                                FadeAnimatedText(
-                                                                  'This Month                Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                  //  alignment: Alignment.topLeft,
-                                                                  duration:
-                                                                      Duration(
-                                                                          seconds:
-                                                                              4),
-                                                                  textStyle:
-                                                                      TextStyle(
-                                                                          fontSize:
-                                                                              14),
-                                                                ),
-                                                                FadeAnimatedText(
-                                                                  'This Year                Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                  // alignment:
-                                                                  //     Alignment
-                                                                  //         .topLeft,
-                                                                  duration:
-                                                                      Duration(
-                                                                          seconds:
-                                                                              4),
-                                                                  textStyle:
-                                                                      TextStyle(
-                                                                          fontSize:
-                                                                              14),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                              flex: 4,
-                                                              child:
-                                                                  GraphScreen()),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Expanded(
-                                                              flex: 2,
-                                                              child:
-                                                                  ReportScreen())
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : const FadeAnimation(
-                                                      child: TableScreen()),
-                                            )),
-                                          ],
-                                        )
+                                        ),
+                                      )
                                       : selectprov.pageSelect==0?SingleChildScrollView(
                                         child: Container(
                                           height:selectprov.pageSelect==1?MediaQuery.of(context).size.height:1300,

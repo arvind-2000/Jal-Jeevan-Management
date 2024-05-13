@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/features/view/pages/graphscreen.dart';
 import 'package:waterlevelmonitor/features/view/pages/reportscreen.dart';
+import 'package:waterlevelmonitor/features/view/pages/settings.dart';
 import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
 import 'package:waterlevelmonitor/features/view/widgets/cardstyle.dart';
@@ -27,7 +28,7 @@ class TableScreen extends StatelessWidget {
       children: [
         Expanded(
           flex: 2,
-          child:selecprov.pageSelect==2? const GraphScreen():selecprov.filterselect && MediaQuery.of(context).size.width<1200 ?const FilterPage():CardStyle(
+          child:selecprov.pageSelect==2? const Settings():selecprov.filterselect && MediaQuery.of(context).size.width<1200 ?const FilterPage():CardStyle(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,7 +164,7 @@ class TableScreen extends StatelessWidget {
             ),
           ),
         ),
-        MediaQuery.of(context).size.width<1200?SizedBox():Expanded(child: FilterPage())
+        MediaQuery.of(context).size.width<1200?SizedBox():Expanded(child: selecprov.pageSelect==2?SizedBox(): FilterPage())
       ],
     );
   }
