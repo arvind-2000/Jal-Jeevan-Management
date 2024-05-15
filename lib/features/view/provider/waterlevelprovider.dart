@@ -29,6 +29,11 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   int timeschedule = 5*60;
   bool isAutomatic = false;
   int seconds = 10;
+  bool isDataApi = false;
+  bool nopower = false;
+  bool isField8 = false;
+  DateTime temp = DateTime.now();
+  int tempdur = 0;
   void getDatass() async {
     response = 0;  
     isLoading = true;
@@ -40,7 +45,7 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
     notifyListeners();
     checkConnection();
     schedulePumptimer();
-    // scheduleAlltimer();
+    scheduleAlltimer();
 
   }
 
@@ -72,17 +77,60 @@ void chechData(){
   void getLatestdata() async{
     Map<List<WaterLevel>,int> value = {};
     int pumpstat = 0;
+    int field8state = 0;
+
   value = await getWaterLevelLatest(url: latestapi);
   response = value.entries.first.value;
   if(value.entries.first.value==1){
     isconnected = true;
     if(value.entries.first.key.isNotEmpty){
   _waterlevellist = value.entries.first.key;
+
+    if(isActive){
+    
+     
+        if(temp == _waterlevellist.first.date){
+              tempdur++;
+          print('in active  $tempdur');
+          if(tempdur>20){ 
+            nopower = true;
+            tempdur = 0;
+      Future.delayed(Duration(seconds: 20)).then((value){
+          if(nopower){
+            print('in active no power no connection  $tempdur');
+          changepumpSwitch(isAutomatic?2:0, _waterlevellist.last, 0,0);
+          pumpSwitch(false, _waterlevellist.last);
+         nopower = false;
+        
+
+          }
+   
+          });
+            notifyListeners();
+
+          }
+    
+        }else{
+            temp = _waterlevellist.first.date;
+            nopower = false;
+              print('in not date active ');
+              notifyListeners();
+        }
+
+
     }
+
+  
+    }
+    else{
+
+      _waterlevellist = [waterleveldummy.last];
+    }
+
   }else{
     isconnected = false;
   }
-
+  
 //   log('in latest');
   
 //   log('in latest ${_waterlevellist.length}');
@@ -90,21 +138,37 @@ void chechData(){
 //  log('in latest data  $checkdata');
 
 
-  pumpstat =  await getAutoPumpStatus(url: latestapi);
-  
+  await getAutoPumpStatus(url: latestapi).then((value) {
+    pumpstat = value;
     if(pumpstat==0 || pumpstat==1){
         isAutomatic = false;
 
         if(!isAutomatic){
 
             isOnoff = pumpstat==1?true:false;
-            notifyListeners();
+    
         }
     }else{
       isAutomatic = true;
     }
+
+
     notifyListeners();
 
+  });
+
+  await getField8(url: latestapi).then((value) {
+    field8state = value;
+    if(field8state==1){
+        isField8 = true;
+    }else{
+      isField8 = false;
+    }
+
+
+    notifyListeners();
+
+  });
 
 
 await getStatus(url: latestapi).then((value){
@@ -121,20 +185,35 @@ await getStatus(url: latestapi).then((value){
 
 
 void getAlldata() async{
+  if(isDataApi){
+  await  getWaterLevel(url:feedapi).then((value){
+        response = value.entries.first.value;
+      if(value.entries.first.key.isNotEmpty){
+      _allfix = value.entries.first.key;
+      }else{
 
-//   await  getWaterLevel(url:feedapi).then((value){
 
-//     _allfix = value.entries.first.key;
-
-//     response = value.entries.first.value;
-
-//     checkConnection();
-//     changeData();
-//     notifyListeners();
-// log('in all');
-//     log('$response  $isLoading');
-//   });
     _allfix = waterleveldummy;
+
+  }
+  
+
+  
+
+    checkConnection();
+    changeData();
+    notifyListeners();
+log('in all');
+    log('$response  $isLoading');
+  });
+
+  }else{
+
+
+    _allfix = waterleveldummy;
+
+  }
+
     // response = 1;
     checkConnection();
     changeData();
@@ -142,6 +221,9 @@ void getAlldata() async{
     notifyListeners();
 
 }
+
+
+
 
 
 void changeTimeSchedule(int value,int option){
@@ -168,13 +250,22 @@ void checkConnection(){
 
 }
 
+//for chagging between api and dummy data
+void changeDataApi(bool val){
 
-// void cancelTimer(){
-//   if(_scheduler!=null){
-//      _scheduler.cancel();
-//   }
+  isDataApi = val;
+  notifyListeners();
+  getAlldata();
 
-// }
+
+}
+
+void cancelTimer(){
+  if(_scheduler!=null){
+     _scheduler.cancel();
+  }
+
+}
 
 
 
@@ -303,19 +394,26 @@ notifyListeners();
   }
 
 
-void starttimer(){
-
-
-
+void changeField8(bool val){
+  
+  changeField8Switch(val?1:0, waterlevellist.last, isAutomatic?2:isOnoff?1:0);
+  
 
 }
   
 void timerseconds(bool plus){
   if(plus){
       seconds++;
+      notifyListeners();
+      _scheduler.cancel();
+
+      schedulePumptimer();
+
   }else{
     if(seconds>1){
       seconds--;
+      notifyListeners();
+      schedulePumptimer();
     }else{
       seconds = 1;
     }

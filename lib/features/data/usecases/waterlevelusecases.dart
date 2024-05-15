@@ -236,12 +236,12 @@ List<double> avg(List<WaterLevel> wat){
     return res;
   }
 
-  Future<int> changepumpSwitch(int value,WaterLevel waterLevel) async{
+  Future<int> changepumpSwitch(int value,WaterLevel waterLevel,int field8,int elev) async{
     int res = 0;
 
     
     try{
-        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${waterLevel.elevation}&field7=$value');
+        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=$elev&field7=$value&field8=$field8');
   
         log(url.toString());
         final response = await http.post(url);
@@ -254,4 +254,24 @@ List<double> avg(List<WaterLevel> wat){
 
     return res;
   }
+
+    Future<int> changeField8Switch(int value,WaterLevel waterLevel,int field7) async{
+    int res = 0;
+
+    
+    try{
+        Uri url = Uri.parse('$updateapi&field1=${waterLevel.level}&field2=${waterLevel.temp}&field4=${waterLevel.flow}&field5=${waterLevel.totalflow}&elevation=${waterLevel.elevation}&field7=$field7&field8=$value');
+  
+        log(url.toString());
+        final response = await http.post(url);
+        res = response.statusCode;
+    
+        log('change pump switch: $res');
+    }catch(e){
+
+    }
+
+    return res;
+  }
+
 }

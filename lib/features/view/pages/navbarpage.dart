@@ -18,7 +18,7 @@ class NavBarPage extends StatelessWidget {
     final prov = Provider.of<WaterLevelProvider>(context);
     return Container(
       padding:const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-        height: MediaQuery.of(context).size.width>screensize?80:120,
+        height: 60,
         child: Column(
           children: [
             Row(

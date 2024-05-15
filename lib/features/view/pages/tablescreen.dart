@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:waterlevelmonitor/core/const.dart';
-import 'package:waterlevelmonitor/features/view/pages/graphscreen.dart';
 import 'package:waterlevelmonitor/features/view/pages/reportscreen.dart';
 import 'package:waterlevelmonitor/features/view/pages/settings.dart';
 import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';

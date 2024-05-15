@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:timer_count_down/timer_count_down.dart';
-import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/core/dummyacidity.dart';
 
 import 'package:waterlevelmonitor/features/view/provider/waterlevelprovider.dart';
-import 'package:waterlevelmonitor/features/view/widgets/cardoption.dart';
 import 'package:waterlevelmonitor/features/view/widgets/progress.dart';
 
 import '../widgets/cardstyle.dart';
@@ -88,7 +85,7 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                       
                         value: prov.isOnoff, onChanged:prov.isAutomatic?null:(value){
                         prov.switches(value);
-                        prov.changepumpSwitch(value?1:0,prov.waterlevellist.last);
+                        prov.changepumpSwitch(value?1:0,prov.waterlevellist.last,prov.isField8?1:0,prov.waterlevellist.last.elevation);
                         switchpump();
                       }),
                     ],
@@ -113,12 +110,12 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                                     
                                    if(value){
                                       
-                                      prov.changepumpSwitch(2,prov.waterlevellist.last);
+                                      prov.changepumpSwitch(2,prov.waterlevellist.last,prov.isField8?1:0,prov.waterlevellist.last.elevation);
                                    
                                       
                                             
                                    } else{
-                                        prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last);
+                                        prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last,prov.isField8?1:0,prov.waterlevellist.last.elevation);
                                            
                                    }
                               
@@ -162,6 +159,9 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                     //     print('Timer is done!');
                     //   },
                     // ):SizedBox()
+
+          
+
                 ],
               ),
               

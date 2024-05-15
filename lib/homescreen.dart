@@ -6,9 +6,7 @@ import 'package:waterlevelmonitor/core/animations/fadeamimation.dart';
 import 'package:waterlevelmonitor/core/const.dart';
 import 'package:waterlevelmonitor/core/error/errorscreen.dart';
 import 'package:waterlevelmonitor/features/view/pages/tablescreen.dart';
-import 'package:waterlevelmonitor/features/view/provider/filterprovider.dart';
 import 'package:waterlevelmonitor/features/view/provider/pageselectprovider.dart';
-
 import 'features/view/pages/graphscreen.dart';
 import 'features/view/pages/reportscreen.dart';
 import 'features/view/provider/waterlevelprovider.dart';
@@ -53,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  InkWell(
                   onTap: (){
                          selectprov.changePage(0);
+                           Navigator.pop(context);
                   },
                    child: Container(
                       padding: EdgeInsets.all(16),
@@ -72,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 InkWell(
                   onTap: (){
                          selectprov.changePage(1);
+                           Navigator.pop(context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(16),
@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                        InkWell(
                   onTap: (){
                          selectprov.changePage(2);
+                         Navigator.pop(context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(16),

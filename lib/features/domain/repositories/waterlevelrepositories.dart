@@ -7,6 +7,5 @@ abstract class WaterLevelRepositories{
   Future<Map<bool,int>> getStatus({ required String url});
   
   Future<int> getAutoPumpStatus({ required String url});
-  
-
+  Future<int> getField8({ required String url});
 }

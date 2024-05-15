@@ -1,8 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:waterlevelmonitor/core/const.dart';
-
 import 'package:waterlevelmonitor/features/data/usecases/waterlevelusecases.dart';
 
 import 'package:http/http.dart' as http;
@@ -27,7 +24,7 @@ int response = 0;
     try {
   final response = await http.get(Uri.parse(url));
         
-      print('in service response latest');
+      // print('in service response latest');
   
       if (response.statusCode == 200) {
           res = 1;
@@ -85,13 +82,13 @@ int response = 0;
       try {
   final response = await http.get(Uri.parse(url));
       
-    print('in service response');
+    // print('in service response');
     if (response.statusCode == 200) {
       res = 1;
       // print('okay in service');
-      log('In service response');
+      // log('In service response');
       var data = jsonDecode(response.body) as Map<String, dynamic>;
-        log('in data field ${data['feeds'].length}');
+        // log('in data field waterlevel ${data['feeds'].length}');
   
   
       //   print("${data['channel']['name']} ${data['feeds'].length}  ${data['feeds'][0]['field1']}");
@@ -145,16 +142,16 @@ int response = 0;
  try {
   final response = await http.get(Uri.parse(url));
       
-    print('in service response');
+    // print('in service response');
     if (response.statusCode == 200) {
 
       // print('okay in service');
-      log('In service response active');
+      // log('In service response active');
       var data = jsonDecode(response.body) as Map<String, dynamic>;
         // log('in data field ${data['feeds'].length}');
         if(data.isNotEmpty){
       d =data['channel']['isActive'];
-       log('in active $d');
+      //  log('in active $d');
         }
 
         }
@@ -168,7 +165,7 @@ int response = 0;
   }
   
   @override
-  Future<int> getAutoPumpStatus({required String url})  async{
+  Future <int> getAutoPumpStatus({required String url})  async{
        int d = 2;
      int res = 0;
 
@@ -177,13 +174,13 @@ int response = 0;
 
   final response = await http.get(Uri.parse(url));
       
-    print('in service response');
+    // print('in service response');
     if (response.statusCode == 200) {
 
       // print('okay in service');
-      log('In service response');
+      // log('In service response');
       var data = jsonDecode(response.body) as Map<String, dynamic>;
-        log('in data field ${data['feeds'].length}');
+        // log('in data field autopumpstatus ${data['feeds'].length}');
         if(data.isNotEmpty){
       String x = data['feeds'][0]['field7'];    
           d = int.tryParse(x)??2;
@@ -198,6 +195,38 @@ int response = 0;
  
   return d;
 
+  }
+  
+  @override
+  Future<int> getField8({required String url})  async{
+   int d = 2;
+     int res = 0;
+
+
+ try {
+
+  final response = await http.get(Uri.parse(url));
+      
+    // print('in service response');
+    if (response.statusCode == 200) {
+
+      // print('okay in service');
+      // log('In service response');
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+        // log('in data field autopumpstatus ${data['feeds'].length}');
+        if(data.isNotEmpty){
+      String x = data['feeds'][0]['field8'];    
+          d = int.tryParse(x)??2;
+        }
+
+        }
+} on Exception catch (e) {
+    log("in client error");
+    res = 4;
+      return d;
+}
+ 
+  return d;
   }
 
 
