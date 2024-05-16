@@ -6,6 +6,8 @@ class PageSelectProvider with ChangeNotifier{
     bool filterselect = false;
     int pageswap = 0;
     int reportpageswap = 0;
+    bool isExpanded = false;
+    int graphchangeval = 10;
     void changePage(int value){
 
           pageSelect = value;
@@ -34,5 +36,21 @@ class PageSelectProvider with ChangeNotifier{
 
     
     }
+
+    void graphExpand(int v){
+        if(graphchangeval==v){
+            graphchangeval = 10;
+        }else{
+graphchangeval = v;
+        }
+        
+        isexpanded();
+      notifyListeners();
+    }
+    void isexpanded(){
+      isExpanded = !isExpanded;
+      notifyListeners();
+    }
+    
 
 }

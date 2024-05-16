@@ -9,6 +9,7 @@ import 'package:waterlevelmonitor/features/view/widgets/progress.dart';
 
 import '../widgets/cardstyle.dart';
 import '../widgets/radialbar.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
 class WaterLevelInfo extends StatefulWidget {
   const WaterLevelInfo({
@@ -110,12 +111,12 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                                     
                                    if(value){
                                       
-                                      prov.changepumpSwitch(2,prov.waterlevellist.last,prov.isField8?1:0,prov.waterlevellist.last.elevation);
+                                      prov.automicSwitch(2);
                                    
                                       
                                             
                                    } else{
-                                        prov.changepumpSwitch(prov.isOnoff?1:0,prov.waterlevellist.last,prov.isField8?1:0,prov.waterlevellist.last.elevation);
+                                        prov.automicSwitch(prov.isOnoff?1:0);
                                            
                                    }
                               
@@ -176,10 +177,24 @@ class _WaterLevelInfoState extends State<WaterLevelInfo> with TickerProviderStat
                       Text("Water Level",style:TextStyle(fontSize:18,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                       Text("${prov.waterlevellist.last.level.toStringAsFixed(0)} $levelunit",style:const TextStyle(fontSize:24),),
                       
-                        Container(
-                          height: 200,
-                          width: 200,
-                          child: RadialBarScreen(waterLevellist:prov.waterlevellist.first.level,),
+                        Expanded(
+                          child: Container(
+                                                
+                            width: double.infinity,
+                            
+                            // padding: EdgeInsets.all(16),
+                            child: LiquidLinearProgressIndicator(
+                                            
+                                               direction: Axis.vertical,
+                                               backgroundColor: Theme.of(context).colorScheme.primary,
+                                               borderWidth: 0,
+                                               valueColor: prov.waterlevellist.last.level>200?AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.error.withOpacity(0.5)):AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary) ,
+                                               borderColor: Theme.of(context).colorScheme.primary,
+                              value: (prov.waterlevellist.last.level>250?250/300:prov.waterlevellist.last.level/300),
+                          
+                            ),
+                            // child: RadialBarScreen(waterLevellist:prov.waterlevellist.first.level,),
+                          ),
                         )
                     
                     

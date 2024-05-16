@@ -19,18 +19,18 @@ int response = 0;
     List<WaterLevel> datas = [];
     WaterLevel waterdata = WaterLevel(name: '',date: DateTime.now(),elevation: 0,flow: 0.0,level: 0.0,temp: 0.0,totalflow: 0.0);
     
-    int res = 0;
+    int res = 1;
 
     try {
   final response = await http.get(Uri.parse(url));
         
-      // print('in service response latest');
+      print('in service response latest');
   
       if (response.statusCode == 200) {
           res = 1;
         // print('okay in service');
         var data = jsonDecode(response.body) as Map<String, dynamic>;
-        print("${data['channel']['name']} ${data['feeds'].length}");
+        print("=> ${data['channel']['name']} ${data['feeds'].length}");
     for(int i = 0;i<data['feeds'].length;i++){
   
           WaterLevel waterdata = WaterLevel(name: '',date: DateTime.now(),elevation: 0,flow: 0.0,level: 0.0,temp: 0.0,totalflow: 0.0);
@@ -47,21 +47,25 @@ int response = 0;
         waterdata = convertValues(name:  name, level: level, flow: flow, temp: temp, date: date, elevation:elevation,totalflow:totalflow );
          
           datas.add(waterdata);
-        
+      
         }
+
+           return  {datas:res};
       } else {
         if (response.statusCode == 500) {
           res = 4;
           print('server error');
+           return  {datas:res};
         } else {
           res = 2;
            print('client error');
-    
+          return  {datas:res};
         }
       }
 } on Exception catch (e) {
     log('error in latest fetch');
     res = 4;
+     return  {datas:res};
 }
       
  
@@ -70,7 +74,7 @@ int response = 0;
     
 
 
-    return  {datas:res};
+
   }
   
   @override
@@ -110,26 +114,26 @@ int response = 0;
         datas.add(waterdata);
       
       }
-     
+      return  {datas:res};
   
     } else {
       if (response.statusCode == 500) {
            res = 4;
         print('server error');
+         return  {datas:res};
       } else {
            res = 2;
         print('client error');
+         return  {datas:res};
     
       }
     }
 } on Exception catch (e) {
     log("in client error");
     res = 4;
-}
-      
-    
-
      return  {datas:res};
+}
+
 
   }
   
@@ -153,11 +157,12 @@ int response = 0;
       d =data['channel']['isActive'];
       //  log('in active $d');
         }
-
+  return {d:res};
         }
 } on Exception catch (e) {
     log("in client error");
     res = 4;
+      return {d:res};
 }
  
   return {d:res};
@@ -185,12 +190,13 @@ int response = 0;
       String x = data['feeds'][0]['field7'];    
           d = int.tryParse(x)??2;
         }
-
+      return d;
         }
 } on Exception catch (e) {
     log("in client error");
     res = 4;
       return d;
+
 }
  
   return d;
@@ -218,7 +224,7 @@ int response = 0;
       String x = data['feeds'][0]['field8'];    
           d = int.tryParse(x)??2;
         }
-
+      return d;
         }
 } on Exception catch (e) {
     log("in client error");

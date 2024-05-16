@@ -15,7 +15,7 @@ class ErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = Provider.of<WaterLevelProvider>(context);
     return Center(
-      child: prov.response == 0 || prov.response == 1
+      child: prov.response<=1
           ? prov.response==1 && prov.waterlevellist.isEmpty?CardStyle(
               child: Container(
                 padding: EdgeInsets.all(20),
@@ -48,7 +48,8 @@ class ErrorScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircularProgressIndicator(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.secondary,
+                  backgroundColor:  Theme.of(context).colorScheme.background,
                 ),
                 const SizedBox(
                   height: 20,
@@ -80,7 +81,7 @@ class ErrorScreen extends StatelessWidget {
             )
           : CardStyle(
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.symmetric(vertical: 60),
                 width: 300,
                 height: 300,

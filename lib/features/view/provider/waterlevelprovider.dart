@@ -28,20 +28,20 @@ class WaterLevelProvider extends WaterLevelModelRepositories with ChangeNotifier
   int selecTimeSchedule = 0;
   int timeschedule = 5*60;
   bool isAutomatic = false;
-  int seconds = 10;
+  int seconds = 1;
   bool isDataApi = false;
   bool nopower = false;
   bool isField8 = false;
   DateTime temp = DateTime.now();
   int tempdur = 0;
-  void getDatass() async {
+  int tempo = 0;
+  bool autoOffSwitch = true;
+  void getDatass(){
     response = 0;  
     isLoading = true;
     getLatestdata();
     getAlldata();
     changeData();
-
-
     notifyListeners();
     checkConnection();
     schedulePumptimer();
@@ -71,54 +71,70 @@ void chechData(){
 
 }
 
-
-
+void autoOffPump(bool val){
+  autoOffSwitch = val;
+  tempdur = 0;
+  notifyListeners();
+}
 
   void getLatestdata() async{
     Map<List<WaterLevel>,int> value = {};
     int pumpstat = 0;
     int field8state = 0;
 
-  value = await getWaterLevelLatest(url: latestapi);
+  value = await getWaterLevelLatest(url: latestapi); 
+  
+  //  value = {[]:1};
   response = value.entries.first.value;
-  if(value.entries.first.value==1){
+  log('in latest response $response');
+  if(response == 1){
     isconnected = true;
     if(value.entries.first.key.isNotEmpty){
   _waterlevellist = value.entries.first.key;
 
-    if(isActive){
+    if (autoOffSwitch) {
+  if(isActive){
+  
+   
+      if(temp == _waterlevellist.first.date){
+            tempdur++;
+        print('in active  $tempdur');
+        if(tempdur>30){ 
+          nopower = true;
+          tempdur = 0;
+      if(temp == _waterlevellist.first.date){
+        if(nopower){
+         log(' in active no power no connection  $tempdur');
+        changepumpSwitch(isAutomatic?2:0, _waterlevellist.last, 0,0);
+        pumpSwitch(false, _waterlevellist.last);
+       nopower = false;
+      
+  
+        }
+      }else{
+        nopower = false;
+        tempdur = 0;
+        temp = _waterlevellist.first.date;
+      }
+  
+     
     
      
-        if(temp == _waterlevellist.first.date){
-              tempdur++;
-          print('in active  $tempdur');
-          if(tempdur>20){ 
-            nopower = true;
-            tempdur = 0;
-      Future.delayed(Duration(seconds: 20)).then((value){
-          if(nopower){
-            print('in active no power no connection  $tempdur');
-          changepumpSwitch(isAutomatic?2:0, _waterlevellist.last, 0,0);
-          pumpSwitch(false, _waterlevellist.last);
-         nopower = false;
-        
-
-          }
-   
-          });
-            notifyListeners();
-
-          }
-    
-        }else{
-            temp = _waterlevellist.first.date;
-            nopower = false;
-              print('in not date active ');
-              notifyListeners();
+  
         }
-
-
-    }
+  
+      }else{
+          temp = _waterlevellist.first.date;
+          
+          tempdur = 0;
+          nopower = false;
+            print('in not date active ');
+            
+      }
+  
+  
+  }
+}
 
   
     }
@@ -130,12 +146,14 @@ void chechData(){
   }else{
     isconnected = false;
   }
+
+  checkConnection();
   
-//   log('in latest');
+  log('in latest');
   
-//   log('in latest ${_waterlevellist.length}');
-//    log('$response  $isLoading');
-//  log('in latest data  $checkdata');
+  log('in latest ${_waterlevellist.length}');
+   log('$response  $isLoading');
+ log('in latest data  $checkdata');
 
 
   await getAutoPumpStatus(url: latestapi).then((value) {
@@ -185,8 +203,10 @@ await getStatus(url: latestapi).then((value){
 
 
 void getAlldata() async{
+    log('in get all data');
   if(isDataApi){
   await  getWaterLevel(url:feedapi).then((value){
+
         response = value.entries.first.value;
       if(value.entries.first.key.isNotEmpty){
       _allfix = value.entries.first.key;
@@ -233,6 +253,11 @@ void changeTimeSchedule(int value,int option){
 }
 
 
+void automicSwitch(int val){
+  changepumpSwitch(val,_waterlevellist.last,isField8?1:0,_waterlevellist.last.elevation);
+  getLatestdata();
+}
+
 void checkConnection(){
   
     // if(response>0){
@@ -269,10 +294,11 @@ void cancelTimer(){
 
 
 
-void schedulePumptimer() async{
+void schedulePumptimer(){
   // isOnoff = await pump();
   _scheduler = Timer.periodic(Duration(seconds: seconds), (timer)  async{ 
     if(response == 1){
+    log('\n\nin pump scheduler ${seconds}\n');
     getLatestdata();
     checkConnection();
 
@@ -337,7 +363,7 @@ void scheduleAlltimer() async{
 
     }
     //for getting data after each switch change might not needed in future
-    getLatestdata();
+    // getLatestdata();
 
     }
 
@@ -413,6 +439,8 @@ void timerseconds(bool plus){
     if(seconds>1){
       seconds--;
       notifyListeners();
+  
+               _scheduler.cancel();
       schedulePumptimer();
     }else{
       seconds = 1;

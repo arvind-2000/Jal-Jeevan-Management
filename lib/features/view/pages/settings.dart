@@ -122,7 +122,40 @@ class Settings extends StatelessWidget {
               ),
             ),
           ),
-
+   SizedBox(height: 20,),
+          CardStyle(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                           FaIcon(FontAwesomeIcons.link,size: 14,),
+                          SizedBox(width: 10,),
+                          const Text('Pump Auto Controller',style: TextStyle(fontSize: 14),),
+                        ],
+                      ),
+                            SizedBox(height: 10,),
+                          Text('Auto off pump when \n',style: TextStyle(fontSize: 12,color: Theme.of(context).colorScheme.surface.withOpacity(0.5)),),
+                    ],
+                  ),
+                  Switch(
+                     activeTrackColor: Colors.white,
+                            activeColor: Theme.of(context).colorScheme.secondary,
+                              inactiveThumbColor: Colors.grey.shade500,
+                            inactiveTrackColor: Colors.grey.shade300,
+                            hoverColor: prov.isField8?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
+                    value: prov.autoOffSwitch, onChanged: (v){
+                      prov.autoOffPump(v);
+                  })
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     )),);

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:waterlevelmonitor/core/const.dart';
@@ -154,10 +155,12 @@ class WaterAcidityChart extends StatelessWidget {
   Widget build(BuildContext context) {
      final prov2 = Provider.of<PageSelectProvider>(context);
     return Expanded(
+       flex: MediaQuery.of(context).size.width>1000?prov2.graphchangeval==3?4:1:1,
                     child: CardStyle(
                       child: Column(
      children: [
        Expanded(
+         
          child: Container(
            // padding:const EdgeInsets.all(16),
            child: Column(
@@ -175,7 +178,9 @@ class WaterAcidityChart extends StatelessWidget {
 
                             MediaQuery.of(context).size.width<1000?IconButton(onPressed: (){
                                       prov2.changegraphpage();
-                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):IconButton(onPressed: (){
+                                      prov2.graphExpand(3);
+                              }, icon: Icon(prov2.graphchangeval==3?FontAwesomeIcons.expandAlt:FontAwesomeIcons.expand,size: 12,))
                        ],
                      ),
                      SizedBox(height:20,),
@@ -322,6 +327,7 @@ class WaterLevelBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov2 = Provider.of<PageSelectProvider>(context);
     return Expanded(
+        flex: MediaQuery.of(context).size.width>1000?prov2.graphchangeval==2?4:1:1,
       child: CardStyle(
         child: Container(
          padding:const EdgeInsets.all(16),
@@ -336,7 +342,9 @@ class WaterLevelBarChart extends StatelessWidget {
                               Text('This Year',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                                MediaQuery.of(context).size.width<1000?IconButton(onPressed: (){
                                       prov2.changegraphpage();
-                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):IconButton(onPressed: (){
+                                      prov2.graphExpand(2);
+                              }, icon: Icon(prov2.graphchangeval==2?FontAwesomeIcons.expandAlt:FontAwesomeIcons.expand,size: 12,))
                             ],
                           ),
                SizedBox(height: 20,),
@@ -434,6 +442,7 @@ class WaterFlowchart extends StatelessWidget {
   Widget build(BuildContext context) {
      final prov2 = Provider.of<PageSelectProvider>(context);
     return Expanded(
+        flex: MediaQuery.of(context).size.width>1000?prov2.graphchangeval==1?4:1:1,
       child: CardStyle(
         child: Column(
           children: [
@@ -454,7 +463,9 @@ class WaterFlowchart extends StatelessWidget {
                               Text('This Month',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                             MediaQuery.of(context).size.width<1000?IconButton(onPressed: (){
                                       prov2.changegraphpage();
-                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):IconButton(onPressed: (){
+                                      prov2.graphExpand(1);
+                              }, icon: Icon(prov2.graphchangeval==1?FontAwesomeIcons.expandAlt:FontAwesomeIcons.expand,size: 12,))
                             ],
                           ),
                           SizedBox(height:20,),
@@ -559,6 +570,7 @@ class WaterLevelChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov2 = Provider.of<PageSelectProvider>(context);
     return Expanded(
+      flex: MediaQuery.of(context).size.width>1000?prov2.graphchangeval==0?4:1:1,
       child: CardStyle(
         child: Column(
           children: [
@@ -579,7 +591,9 @@ class WaterLevelChart extends StatelessWidget {
                               Text('This Month',style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.surface.withOpacity(0.6)),),
                             MediaQuery.of(context).size.width<1000?IconButton(onPressed: (){
                                       prov2.changegraphpage();
-                              }, icon: Icon(Icons.arrow_forward,size: 12,)):SizedBox()
+                              }, icon: Icon(Icons.arrow_forward,size: 12,)):IconButton(onPressed: (){
+                                      prov2.graphExpand(0);
+                              }, icon: Icon(prov2.graphchangeval==0?FontAwesomeIcons.expandAlt:FontAwesomeIcons.expand,size: 12,))
                             ],
                           ),
                           SizedBox(height:20,),

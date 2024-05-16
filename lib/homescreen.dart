@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                         physics:const BouncingScrollPhysics(),
                                         child:SizedBox(
-                                          height:MediaQuery.of(context).size.height<500? 600:670,
+                                          height:MediaQuery.of(context).size.height<500? 600:MediaQuery.of(context).size.height*0.85,
                                           child: Row(
                                               children: [
                                               const WaterLevelInfo(),
@@ -150,60 +150,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              Container(
-                                                                height: 50,
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            8),
-                                                                child:
-                                                                    AnimatedTextKit(
-                                                                  isRepeatingAnimation:
-                                                                      true,
-                                                                  repeatForever:
-                                                                      true,
-                                                                  animatedTexts: [
-                                                                    FadeAnimatedText(
-                                                                        'Today                Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit                flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit                temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
-                                                                        // alignment:
-                                                                        //     Alignment
-                                                                        //         .topLeft,
-                                                                        textStyle:
-                                                                            TextStyle(
-                                                                                fontSize:
-                                                                                    14),
-                                                                        duration: Duration(
-                                                                            seconds:
-                                                                                4)),
-                                                                    FadeAnimatedText(
-                                                                      'This Month                Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                      //  alignment: Alignment.topLeft,
-                                                                      duration:
-                                                                          Duration(
-                                                                              seconds:
-                                                                                  4),
-                                                                      textStyle:
-                                                                          TextStyle(
-                                                                              fontSize:
-                                                                                  14),
-                                                                    ),
-                                                                    FadeAnimatedText(
-                                                                      'This Year                Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                      // alignment:
-                                                                      //     Alignment
-                                                                      //         .topLeft,
-                                                                      duration:
-                                                                          Duration(
-                                                                              seconds:
-                                                                                  4),
-                                                                      textStyle:
-                                                                          TextStyle(
-                                                                              fontSize:
-                                                                                  14),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
+                                                              // Container(
+                                                              //   height: 50,
+                                                              //   margin: EdgeInsets
+                                                              //       .symmetric(
+                                                              //           vertical:
+                                                              //               8),
+                                                              //   child:
+                                                              //       AnimatedTextKit(
+                                                              //     isRepeatingAnimation:
+                                                              //         true,
+                                                              //     repeatForever:
+                                                              //         true,
+                                                              //     animatedTexts: [
+                                                              //       FadeAnimatedText(
+                                                              //           'Today                Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit                flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit                temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
+                                                              //           // alignment:
+                                                              //           //     Alignment
+                                                              //           //         .topLeft,
+                                                              //           textStyle:
+                                                              //               TextStyle(
+                                                              //                   fontSize:
+                                                              //                       14),
+                                                              //           duration: Duration(
+                                                              //               seconds:
+                                                              //                   4)),
+                                                              //       FadeAnimatedText(
+                                                              //         'This Month                Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                              //         //  alignment: Alignment.topLeft,
+                                                              //         duration:
+                                                              //             Duration(
+                                                              //                 seconds:
+                                                              //                     4),
+                                                              //         textStyle:
+                                                              //             TextStyle(
+                                                              //                 fontSize:
+                                                              //                     14),
+                                                              //       ),
+                                                              //       FadeAnimatedText(
+                                                              //         'This Year                Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit                flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit                temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                              //         // alignment:
+                                                              //         //     Alignment
+                                                              //         //         .topLeft,
+                                                              //         duration:
+                                                              //             Duration(
+                                                              //                 seconds:
+                                                              //                     4),
+                                                              //         textStyle:
+                                                              //             TextStyle(
+                                                              //                 fontSize:
+                                                              //                     14),
+                                                              //       ),
+                                                              //     ],
+                                                              //   ),
+                                                              // ),
                                                               Expanded(
                                                                   flex: 4,
                                                                   child:
@@ -245,60 +245,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                                              CrossAxisAlignment
                                                                  .start,
                                                          children: [
-                                                           Container(
-                                                             height: 30,
-                                                             margin: EdgeInsets
-                                                                 .symmetric(
-                                                                     vertical:
-                                                                        16),
-                                                             child:
-                                                                 AnimatedTextKit(
-                                                               isRepeatingAnimation:
-                                                                   true,
-                                                               repeatForever:
-                                                                   true,
-                                                               animatedTexts: [
-                                                                 FadeAnimatedText(
-                                                                     'Today    Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit    flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit    temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
-                                                                     // alignment:
-                                                                     //     Alignment
-                                                                     //         .topLeft,
-                                                                     textStyle:
-                                                                         TextStyle(
-                                                                             fontSize:
-                                                                                 14),
-                                                                     duration: Duration(
-                                                                         seconds:
-                                                                             4)),
-                                                                 FadeAnimatedText(
-                                                                   'This Month    Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit    flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit    temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                   //  alignment: Alignment.topLeft,
-                                                                   duration:
-                                                                       Duration(
-                                                                           seconds:
-                                                                               4),
-                                                                   textStyle:
-                                                                       TextStyle(
-                                                                           fontSize:
-                                                                               14),
-                                                                 ),
-                                                                 FadeAnimatedText(
-                                                                   'This Year    Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit    flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit    temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
-                                                                   // alignment:
-                                                                   //     Alignment
-                                                                   //         .topLeft,
-                                                                   duration:
-                                                                       Duration(
-                                                                           seconds:
-                                                                               4),
-                                                                   textStyle:
-                                                                       TextStyle(
-                                                                           fontSize:
-                                                                               14),
-                                                                 ),
-                                                               ],
-                                                             ),
-                                                           ),
+                                                          //  Container(
+                                                          //    height: 30,
+                                                          //    margin: EdgeInsets
+                                                          //        .symmetric(
+                                                          //            vertical:
+                                                          //               16),
+                                                          //    child:
+                                                          //        AnimatedTextKit(
+                                                          //      isRepeatingAnimation:
+                                                          //          true,
+                                                          //      repeatForever:
+                                                          //          true,
+                                                          //      animatedTexts: [
+                                                          //        FadeAnimatedText(
+                                                          //            'Today    Level: ${prov.waterlevellist.last.level.roundToDouble()} $levelunit    flow: ${prov.waterlevellist.last.flow.roundToDouble()} $flowunit    temp: ${prov.waterlevellist.last.temp.roundToDouble()} $tempunit',
+                                                          //            // alignment:
+                                                          //            //     Alignment
+                                                          //            //         .topLeft,
+                                                          //            textStyle:
+                                                          //                TextStyle(
+                                                          //                    fontSize:
+                                                          //                        14),
+                                                          //            duration: Duration(
+                                                          //                seconds:
+                                                          //                    4)),
+                                                          //        FadeAnimatedText(
+                                                          //          'This Month    Level: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit    flow: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit    temp: ${prov.avg(prov.monthly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                          //          //  alignment: Alignment.topLeft,
+                                                          //          duration:
+                                                          //              Duration(
+                                                          //                  seconds:
+                                                          //                      4),
+                                                          //          textStyle:
+                                                          //              TextStyle(
+                                                          //                  fontSize:
+                                                          //                      14),
+                                                          //        ),
+                                                          //        FadeAnimatedText(
+                                                          //          'This Year    Level: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[0].roundToDouble()} $levelunit    flow: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[1].roundToDouble()} $flowunit    temp: ${prov.avg(prov.yearly(prov.allfixwaterlevellist, DateTime.now()))[2].roundToDouble()} $tempunit',
+                                                          //          // alignment:
+                                                          //          //     Alignment
+                                                          //          //         .topLeft,
+                                                          //          duration:
+                                                          //              Duration(
+                                                          //                  seconds:
+                                                          //                      4),
+                                                          //          textStyle:
+                                                          //              TextStyle(
+                                                          //                  fontSize:
+                                                          //                      14),
+                                                          //        ),
+                                                          //      ],
+                                                          //    ),
+                                                          //  ),
                                                            Container(
                                                             height: 1300*0.25,
                                                             child: GraphScreen()),
